@@ -91,34 +91,16 @@
       <td>衡量公司应收账款的收回速度，数值高于行业平均表示较好。</td>
     </tr>
     <tr>
-      <td>应收账款周转天数</td>
-      <td>360 / 应收账款周转率</td>
-      <td>&lt;= 90</td>
-      <td>应收账款周转率的倒数，表示应收账款的收回速度，数值小于等于90天表示较好。</td>
-    </tr>
-    <tr>
       <td>存货周转率</td>
       <td>营业成本 / 存货</td>
       <td>高于行业平均</td>
       <td>衡量公司存货的周转速度，数值高于行业平均表示较好。</td>
     </tr>
     <tr>
-      <td>存货周转天数</td>
-      <td>360 / 存货周转率</td>
-      <td>&lt;= 90</td>
-      <td>存货周转率的倒数，表示存货的周转速度，数值小于等于90天表示较好。</td>
-    </tr>
-    <tr>
       <td>应付账款周转率</td>
       <td>营业成本 / 应付账款</td>
       <td>高于行业平均</td>
       <td>衡量公司应付账款的支付速度，数值高于行业平均表示较好。</td>
-    </tr>
-    <tr>
-      <td>应付账款周转天数</td>
-      <td>360 / 应付账款周转率</td>
-      <td>&lt;= 90</td>
-      <td>应付账款周转率的倒数，表示应付账款的支付速度，数值小于等于90天表示较好。</td>
     </tr>
     <tr>
       <td>营业周期</td>
@@ -134,7 +116,7 @@
     </tr>
     <tr>
       <td>毛利率</td>
-      <td>销售毛利 / 营业收入</td>
+      <td>(营业收入 - 营业成本) / 营业收入</td>
       <td>高于行业平均</td>
       <td>衡量公司每单位销售收入中的毛利润比例，数值高于行业平均表示较好。</td>
     </tr>
@@ -152,19 +134,19 @@
     </tr>
     <tr>
       <td>投资回报率 (ROA)</td>
-      <td>销售净利率 * 总资产周转率</td>
+      <td>(净利润 / 总资产) * 100</td>
       <td>高于行业平均</td>
       <td>衡量公司利用资产创造利润的能力，数值高于行业平均表示较好。</td>
     </tr>
     <tr>
       <td>权益乘数</td>
-      <td>资产总额 / 权益总额</td>
+      <td>总资产 / 权益总额</td>
       <td>适当范围内</td>
       <td>衡量公司债务资金占股东权益的比例，数值应在适当范围内，避免过度负债。</td>
     </tr>
     <tr>
       <td>权益报酬率 (ROE)</td>
-      <td>净利润 / 股东权益平均余额</td>
+      <td>(净利润 / 股东权益平均余额) * 100</td>
       <td>高于行业平均</td>
       <td>衡量公司股东投资的收益率，数值高于行业平均表示较好。</td>
     </tr>
@@ -240,19 +222,16 @@
         '速动比率': calculateQuickRatio(inputData.currentAssets, inputData.inventory, inputData.currentLiabilities),
         '资产负债率': calculateDebtRatio(inputData.totalLiabilities, inputData.totalAssets),
         '应收账款周转率': calculateReceivablesTurnover(inputData.operatingIncome, inputData.receivables),
-        '应收账款周转天数': calculateReceivablesTurnoverDays(inputData.receivables),
         '存货周转率': calculateInventoryTurnover(inputData.costOfGoodsSold, inputData.inventory),
-        '存货周转天数': calculateInventoryTurnoverDays(inputData.inventory),
         '应付账款周转率': calculatePayablesTurnover(inputData.costOfGoodsSold, inputData.payables),
-        '应付账款周转天数': calculatePayablesTurnoverDays(inputData.payables),
         '营业周期': calculateOperatingCycle(inputData.inventory, inputData.receivables),
         '现金周期': calculateCashCycle(inputData.inventory, inputData.receivables, inputData.payables),
         '毛利率': calculateGrossProfitMargin(inputData.operatingIncome, inputData.costOfGoodsSold),
-        '销售净利率': calculateNetProfitMargin(inputData.operatingIncome, inputData.netIncome),
+        '销售净利率': calculateNetProfitMargin(inputData.operatingIncome, inputData.costOfGoodsSold),
         '总资产周转率': calculateTotalAssetTurnover(inputData.operatingIncome, inputData.totalAssets),
-        '投资回报率 (ROA)': calculateROA(inputData.netIncome, inputData.totalAssets),
-        '权益乘数': calculateEquityMultiplier(inputData.totalAssets, inputData.totalEquity),
-        '权益报酬率 (ROE)': calculateROE(inputData.netIncome, inputData.avgEquityBalance)
+        '投资回报率 (ROA)': calculateROA(inputData.costOfGoodsSold, inputData.totalAssets),
+        '权益乘数': calculateEquityMultiplier(inputData.totalAssets, inputData.totalLiabilities),
+        '权益报酬率 (ROE)': calculateROE(inputData.costOfGoodsSold, inputData.totalLiabilities)
       };
       
       var resultBody = document.getElementById('result-body');
@@ -297,9 +276,6 @@
         case '总资产周转率':
         case '投资回报率 (ROA)':
           return '高于行业平均';
-        case '应收账款周转天数':
-        case '存货周转天数':
-        case '应付账款周转天数':
         case '营业周期':
         case '现金周期':
           return '<= 90';
@@ -335,15 +311,9 @@
           return '公司负债较低';
         case '应收账款周转率':
           return '公司应收账款收回速度较快';
-        case '应收账款周转天数':
-          return '公司应收账款收回速度较快';
         case '存货周转率':
           return '公司存货周转速度较快';
-        case '存货周转天数':
-          return '公司存货周转速度较快';
         case '应付账款周转率':
-          return '公司应付账款支付速度较快';
-        case '应付账款周转天数':
           return '公司应付账款支付速度较快';
         case '营业周期':
           return '公司从采购原材料到收回销售款项的周期较短';
@@ -382,24 +352,12 @@
       return operatingIncome / receivables;
     }
     
-    function calculateReceivablesTurnoverDays(receivables) {
-      return 360 / receivables;
-    }
-    
     function calculateInventoryTurnover(costOfGoodsSold, inventory) {
       return costOfGoodsSold / inventory;
     }
     
-    function calculateInventoryTurnoverDays(inventory) {
-      return 360 / inventory;
-    }
-    
     function calculatePayablesTurnover(costOfGoodsSold, payables) {
       return costOfGoodsSold / payables;
-    }
-    
-    function calculatePayablesTurnoverDays(payables) {
-      return 360 / payables;
     }
     
     function calculateOperatingCycle(inventory, receivables) {
@@ -411,11 +369,11 @@
     }
     
     function calculateGrossProfitMargin(operatingIncome, costOfGoodsSold) {
-      return (operatingIncome - costOfGoodsSold) / operatingIncome;
+      return ((operatingIncome - costOfGoodsSold) / operatingIncome) * 100;
     }
     
-    function calculateNetProfitMargin(operatingIncome, netIncome) {
-      return netIncome / operatingIncome;
+    function calculateNetProfitMargin(operatingIncome, costOfGoodsSold) {
+      return ((operatingIncome - costOfGoodsSold) / operatingIncome) * 100;
     }
     
     function calculateTotalAssetTurnover(operatingIncome, totalAssets) {
@@ -426,12 +384,12 @@
       return (netIncome / totalAssets) * 100;
     }
     
-    function calculateEquityMultiplier(totalAssets, totalEquity) {
-      return totalAssets / totalEquity;
+    function calculateEquityMultiplier(totalAssets, totalLiabilities) {
+      return totalAssets / totalLiabilities;
     }
     
-    function calculateROE(netIncome, avgEquityBalance) {
-      return (netIncome / avgEquityBalance) * 100;
+    function calculateROE(netIncome, totalLiabilities) {
+      return (netIncome / totalLiabilities) * 100;
     }
   </script>
 </body>
