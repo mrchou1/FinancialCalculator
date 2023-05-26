@@ -347,6 +347,7 @@
       document.getElementById('liquidity-ratio-analysis').innerHTML = analyzeLiquidityRatio(liquidityRatio);
       document.getElementById('quick-ratio-analysis').innerHTML = analyzeQuickRatio(quickRatio);
       document.getElementById('debt-ratio-analysis').innerHTML = analyzeDebtRatio(debtRatio);
+      document.getElementById('receivables-turnover-analysis').innerHTML = analyzeReceivablesTurnover(receivablesTurnover);
       document.getElementById('receivables-turnover-days-analysis').innerHTML = analyzeReceivablesTurnoverDays(receivablesTurnoverDays);
       document.getElementById('inventory-turnover-analysis').innerHTML = analyzeInventoryTurnover(inventoryTurnover);
       document.getElementById('inventory-turnover-days-analysis').innerHTML = analyzeInventoryTurnoverDays(inventoryTurnoverDays);
@@ -392,6 +393,17 @@
         return "资产负债率适中，表示企业的资产和负债相对平衡。建议继续关注资本结构，并合理运用债务。";
       } else {
         return "资产负债率较高，表示企业负债相对较多。建议加强资本结构管理，降低负债风险，并控制债务规模。";
+      }
+    }
+    
+    function analyzeReceivablesTurnover(value) {
+      var idealRange = "越高越好";
+      if (value > 10) {
+        return "应收账款周转率较高，表示企业能够较快地收回应收账款。建议继续保持良好的应收账款管理，加强催款和风险控制。";
+      } else if (value > 5) {
+        return "应收账款周转率适中，表示企业在应收账款收回方面表现稳定。建议继续关注应收账款管理，加强催款措施。";
+      } else {
+        return "应收账款周转率较低，表示企业应收账款收回较慢。建议优化应收账款管理，加强催款和信用风险控制。";
       }
     }
 
