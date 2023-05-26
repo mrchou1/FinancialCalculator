@@ -7,389 +7,432 @@
       border-collapse: collapse;
       width: 100%;
     }
-    
+
     th, td {
-      text-align: left;
+      border: 1px solid black;
       padding: 8px;
     }
-    
+
     th {
       background-color: #f2f2f2;
     }
-    
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
+
+    h3 {
+      margin-top: 30px;
     }
-    
-    #calculator-form {
-      margin-top: 20px;
+
+    label {
+      display: inline-block;
+      width: 150px;
+      margin-bottom: 10px;
     }
-    
-    #calculator-form label {
-      display: block;
-      margin-bottom: 5px;
+
+    input[type="number"] {
+      width: 200px;
+      padding: 5px;
     }
-    
-    #calculator-form input[type="text"] {
-      width: 100px;
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
     }
-    
-    #calculate-button {
-      margin-top: 10px;
+
+    button:hover {
+      background-color: #45a049;
     }
-    
-    #result-table {
-      margin-top: 20px;
-      width: 100%;
-    }
-    
-    #result-table td {
-      font-weight: bold;
-    }
-    
-    .good-value {
-      color: green;
-    }
-    
-    .bad-value {
-      color: red;
+
+    #result {
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
   <h1>财务指标计算器</h1>
-  
   <table>
-    <tr>
-      <th>指标名称</th>
-      <th>指标计算公式</th>
-      <th>指标理想范围</th>
-      <th>指标含义描述</th>
-    </tr>
-    <tr>
-      <td>流动比率</td>
-      <td>流动资产 / 流动负债</td>
-      <td>&gt;= 1</td>
-      <td>衡量公司偿还短期债务能力的指标，数值大于1表示偿债能力较好。</td>
-    </tr>
-    <tr>
-      <td>速动比率</td>
-      <td>(流动资产 - 存货) / 流动负债</td>
-      <td>&gt;= 1</td>
-      <td>除去存货后的流动资产与流动负债比率，反映了公司在不考虑存货的情况下偿债能力。</td>
-    </tr>
-    <tr>
-      <td>资产负债率</td>
-      <td>负债合计 / 总资产</td>
-      <td>&lt;= 0.5</td>
-      <td>衡量公司债务占总资产的比例，数值小于等于0.5表示负债较低。</td>
-    </tr>
-    <tr>
-      <td>应收账款周转率</td>
-      <td>营业收入 / 应收账款</td>
-      <td>高于行业平均</td>
-      <td>衡量公司应收账款的收回速度，数值高于行业平均表示较好。</td>
-    </tr>
-    <tr>
-      <td>存货周转率</td>
-      <td>营业成本 / 存货</td>
-      <td>高于行业平均</td>
-      <td>衡量公司存货的周转速度，数值高于行业平均表示较好。</td>
-    </tr>
-    <tr>
-      <td>应付账款周转率</td>
-      <td>营业成本 / 应付账款</td>
-      <td>高于行业平均</td>
-      <td>衡量公司应付账款的支付速度，数值高于行业平均表示较好。</td>
-    </tr>
-    <tr>
-      <td>营业周期</td>
-      <td>存货周转天数 + 应收账款周转天数</td>
-      <td>&lt;= 180</td>
-      <td>表示公司从采购原材料到收回销售款项的周期，数值小于等于180天表示较好。</td>
-    </tr>
-    <tr>
-      <td>现金周期</td>
-      <td>存货周转天数 + 应收账款周转天数 - 应付账款周转天数</td>
-      <td>&lt;= 90</td>
-      <td>表示公司从采购原材料到收回现金的周期，数值小于等于90天表示较好。</td>
-    </tr>
-    <tr>
-      <td>毛利率</td>
-      <td>(营业收入 - 营业成本) / 营业收入</td>
-      <td>高于行业平均</td>
-      <td>衡量公司每单位销售收入中的毛利润比例，数值高于行业平均表示较好。</td>
-    </tr>
-    <tr>
-      <td>销售净利率</td>
-      <td>净利润 / 营业收入</td>
-      <td>高于行业平均</td>
-      <td>衡量公司每单位销售收入中的净利润比例，数值高于行业平均表示较好。</td>
-    </tr>
-    <tr>
-      <td>总资产周转率</td>
-      <td>营业收入 / 总资产</td>
-      <td>高于行业平均</td>
-      <td>衡量公司利用资产创造销售收入的能力，数值高于行业平均表示较好。</td>
-    </tr>
-    <tr>
-      <td>投资回报率 (ROA)</td>
-      <td>(净利润 / 总资产) * 100</td>
-      <td>高于行业平均</td>
-      <td>衡量公司利用资产创造利润的能力，数值高于行业平均表示较好。</td>
-    </tr>
-    <tr>
-      <td>权益乘数</td>
-      <td>总资产 / 权益总额</td>
-      <td>适当范围内</td>
-      <td>衡量公司债务资金占股东权益的比例，数值应在适当范围内，避免过度负债。</td>
-    </tr>
-    <tr>
-      <td>权益报酬率 (ROE)</td>
-      <td>(净利润 / 股东权益平均余额) * 100</td>
-      <td>高于行业平均</td>
-      <td>衡量公司股东投资的收益率，数值高于行业平均表示较好。</td>
-    </tr>
-  </table>
-  
-  <div id="calculator-form">
-    <h2>输入财报数据</h2>
-    <form id="input-form">
-      <label for="current-assets-input">流动资产：</label>
-      <input type="text" id="current-assets-input" />
-      
-      <label for="current-liabilities-input">流动负债：</label>
-      <input type="text" id="current-liabilities-input" />
-      
-      <label for="inventory-input">存货：</label>
-      <input type="text" id="inventory-input" />
-      
-      <label for="total-assets-input">总资产：</label>
-      <input type="text" id="total-assets-input" />
-      
-      <label for="total-liabilities-input">负债合计：</label>
-      <input type="text" id="total-liabilities-input" />
-      
-      <label for="operating-income-input">营业收入：</label>
-      <input type="text" id="operating-income-input" />
-      
-      <label for="receivables-input">应收账款：</label>
-      <input type="text" id="receivables-input" />
-      
-      <label for="cost-of-goods-sold-input">营业成本：</label>
-      <input type="text" id="cost-of-goods-sold-input" />
-      
-      <label for="payables-input">应付账款：</label>
-      <input type="text" id="payables-input" />
-      
-      <div>
-        <button id="calculate-button" type="button">计算</button>
-      </div>
-    </form>
-  </div>
-  
-  <div id="result-table">
-    <h2>计算结果</h2>
-    <table>
+    <thead>
       <tr>
         <th>指标名称</th>
-        <th>计算结果</th>
-        <th>理想范围</th>
-        <th>分析与建议</th>
+        <th>指标计算公式</th>
+        <th>友商指标值</th>
+        <th>分析和建议</th>
       </tr>
-      <tbody id="result-body"></tbody>
+    </thead>
+    <tbody>
+      <tr>
+        <td>流动比率</td>
+        <td>流动资产 / 流动负债</td>
+        <td>1.54</td>
+        <td id="liquidity-ratio-analysis"></td>
+      </tr>
+      <tr>
+        <td>速动比率</td>
+        <td>(流动资产 - 存货) / 流动负债</td>
+        <td>1.47</td>
+        <td id="quick-ratio-analysis"></td>
+      </tr>
+      <tr>
+        <td>资产负债率</td>
+        <td>负债合计 / 总资产</td>
+        <td>36.63%</td>
+        <td id="debt-ratio-analysis"></td>
+      </tr>
+      <tr>
+        <td>应收账款周转率</td>
+        <td>营业收入 / 应收账款</td>
+        <td>-</td>
+        <td id="receivables-turnover-analysis"></td>
+      </tr>
+      <tr>
+        <td>应收账款周转天数</td>
+        <td>360 / 应收账款周转率</td>
+        <td>-</td>
+        <td id="receivables-turnover-days-analysis"></td>
+      </tr>
+      <tr>
+        <td>存货周转率</td>
+        <td>营业成本 / 存货平均余额</td>
+        <td>-</td>
+        <td id="inventory-turnover-analysis"></td>
+      </tr>
+      <tr>
+        <td>存货周转天数</td>
+        <td>360 / 存货周转率</td>
+        <td>-</td>
+        <td id="inventory-turnover-days-analysis"></td>
+      </tr>
+      <tr>
+        <td>应付账款周转率</td>
+        <td>营业成本 / 应付账款</td>
+        <td>-</td>
+        <td id="payables-turnover-analysis"></td>
+      </tr>
+      <tr>
+        <td>应付账款周转天数</td>
+        <td>360 / 应付账款周转率</td>
+        <td>-</td>
+        <td id="payables-turnover-days-analysis"></td>
+      </tr>
+      <tr>
+        <td>营业周期</td>
+        <td>存货周期 + 应收账款周期</td>
+        <td>-</td>
+        <td id="operating-cycle-analysis"></td>
+      </tr>
+      <tr>
+        <td>现金周期</td>
+        <td>存货周期 + 应收账款周期 - 应付账款周期</td>
+        <td>-</td>
+        <td id="cash-cycle-analysis"></td>
+      </tr>
+      <tr>
+        <td>毛利率</td>
+        <td>销售毛利 / 营业收入</td>
+        <td>63.82%</td>
+        <td id="gross-profit-margin-analysis"></td>
+      </tr>
+      <tr>
+        <td>销售净利率</td>
+        <td>净利润 / 营业收入</td>
+        <td>2.62%</td>
+        <td id="net-profit-margin-analysis"></td>
+      </tr>
+      <tr>
+        <td>总资产周转率</td>
+        <td>营业收入 / 总资产</td>
+        <td>0.64</td>
+        <td id="total-assets-turnover-analysis"></td>
+      </tr>
+      <tr>
+        <td>投资回报率（ROA）</td>
+        <td>销售净利率 * 总资产周转率</td>
+        <td>1.67%</td>
+        <td id="roa-analysis"></td>
+      </tr>
+      <tr>
+        <td>权益乘数</td>
+        <td>资产总额 / 权益总额</td>
+        <td>2.73</td>
+        <td id="equity-multiplier-analysis"></td>
+      </tr>
+      <tr>
+        <td>权益报酬率（ROE）</td>
+        <td>净利润 / 股东权益平均余额</td>
+        <td>4.56%</td>
+        <td id="roe-analysis"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div id="input-form">
+    <h3>输入财报数据</h3>
+    <label for="current-assets">流动资产：</label>
+    <input type="number" id="current-assets"><br>
+    <label for="current-liabilities">流动负债：</label>
+    <input type="number" id="current-liabilities"><br>
+    <label for="total-assets">总资产：</label>
+    <input type="number" id="total-assets"><br>
+    <label for="total-liabilities">负债合计：</label>
+    <input type="number" id="total-liabilities"><br>
+    <label for="receivables">应收账款：</label>
+    <input type="number" id="receivables"><br>
+    <label for="average-receivables">应收账款平均余额：</label>
+    <input type="number" id="average-receivables"><br>
+    <label for="sales-revenue">营业收入：</label>
+    <input type="number" id="sales-revenue"><br>
+    <label for="cost-of-goods-sold">营业成本：</label>
+    <input type="number" id="cost-of-goods-sold"><br>
+    <label for="inventory">存货：</label>
+    <input type="number" id="inventory"><br>
+    <label for="payables">应付账款：</label>
+    <input type="number" id="payables"><br>
+    <label for="shareholders-equity">股东权益平均余额：</label>
+    <input type="number" id="shareholders-equity"><br>
+    <button onclick="calculate()">计算</button>
+  </div>
+
+  <div id="result">
+    <h3>计算结果</h3>
+    <table>
+      <tbody>
+        <tr>
+          <td>流动比率</td>
+          <td id="liquidity-ratio"></td>
+          <td>1.54</td>
+          <td id="liquidity-ratio-analysis"></td>
+        </tr>
+        <tr>
+          <td>速动比率</td>
+          <td id="quick-ratio"></td>
+          <td>1.47</td>
+          <td id="quick-ratio-analysis"></td>
+        </tr>
+        <tr>
+          <td>资产负债率</td>
+          <td id="debt-ratio"></td>
+          <td>36.63%</td>
+          <td id="debt-ratio-analysis"></td>
+        </tr>
+        <tr>
+          <td>应收账款周转率</td>
+          <td id="receivables-turnover"></td>
+          <td>-</td>
+          <td id="receivables-turnover-analysis"></td>
+        </tr>
+        <tr>
+          <td>应收账款周转天数</td>
+          <td id="receivables-turnover-days"></td>
+          <td>-</td>
+          <td id="receivables-turnover-days-analysis"></td>
+        </tr>
+        <tr>
+          <td>存货周转率</td>
+          <td id="inventory-turnover"></td>
+          <td>-</td>
+          <td id="inventory-turnover-analysis"></td>
+        </tr>
+        <tr>
+          <td>存货周转天数</td>
+          <td id="inventory-turnover-days"></td>
+          <td>-</td>
+          <td id="inventory-turnover-days-analysis"></td>
+        </tr>
+        <tr>
+          <td>应付账款周转率</td>
+          <td id="payables-turnover"></td>
+          <td>-</td>
+          <td id="payables-turnover-analysis"></td>
+        </tr>
+        <tr>
+          <td>应付账款周转天数</td>
+          <td id="payables-turnover-days"></td>
+          <td>-</td>
+          <td id="payables-turnover-days-analysis"></td>
+        </tr>
+        <tr>
+          <td>营业周期</td>
+          <td id="operating-cycle"></td>
+          <td>-</td>
+          <td id="operating-cycle-analysis"></td>
+        </tr>
+        <tr>
+          <td>现金周期</td>
+          <td id="cash-cycle"></td>
+          <td>-</td>
+          <td id="cash-cycle-analysis"></td>
+        </tr>
+        <tr>
+          <td>毛利率</td>
+          <td id="gross-profit-margin"></td>
+          <td>63.82%</td>
+          <td id="gross-profit-margin-analysis"></td>
+        </tr>
+        <tr>
+          <td>销售净利率</td>
+          <td id="net-profit-margin"></td>
+          <td>2.62%</td>
+          <td id="net-profit-margin-analysis"></td>
+        </tr>
+        <tr>
+          <td>总资产周转率</td>
+          <td id="total-assets-turnover"></td>
+          <td>0.64</td>
+          <td id="total-assets-turnover-analysis"></td>
+        </tr>
+        <tr>
+          <td>投资回报率（ROA）</td>
+          <td id="roa"></td>
+          <td>1.67%</td>
+          <td id="roa-analysis"></td>
+        </tr>
+        <tr>
+          <td>权益乘数</td>
+          <td id="equity-multiplier"></td>
+          <td>2.73</td>
+          <td id="equity-multiplier-analysis"></td>
+        </tr>
+        <tr>
+          <td>权益报酬率（ROE）</td>
+          <td id="roe"></td>
+          <td>4.56%</td>
+          <td id="roe-analysis"></td>
+        </tr>
+      </tbody>
     </table>
   </div>
-  
+
   <script>
-    document.getElementById('calculate-button').addEventListener('click', calculateIndicators);
-    
-    function calculateIndicators() {
-      var inputData = {
-        currentAssets: parseFloat(document.getElementById('current-assets-input').value),
-        currentLiabilities: parseFloat(document.getElementById('current-liabilities-input').value),
-        inventory: parseFloat(document.getElementById('inventory-input').value),
-        totalAssets: parseFloat(document.getElementById('total-assets-input').value),
-        totalLiabilities: parseFloat(document.getElementById('total-liabilities-input').value),
-        operatingIncome: parseFloat(document.getElementById('operating-income-input').value),
-        receivables: parseFloat(document.getElementById('receivables-input').value),
-        costOfGoodsSold: parseFloat(document.getElementById('cost-of-goods-sold-input').value),
-        payables: parseFloat(document.getElementById('payables-input').value)
-      };
-      
-      var results = {
-        '流动比率': calculateCurrentRatio(inputData.currentAssets, inputData.currentLiabilities),
-        '速动比率': calculateQuickRatio(inputData.currentAssets, inputData.inventory, inputData.currentLiabilities),
-        '资产负债率': calculateDebtRatio(inputData.totalLiabilities, inputData.totalAssets),
-        '应收账款周转率': calculateReceivablesTurnover(inputData.operatingIncome, inputData.receivables),
-        '存货周转率': calculateInventoryTurnover(inputData.costOfGoodsSold, inputData.inventory),
-        '应付账款周转率': calculatePayablesTurnover(inputData.costOfGoodsSold, inputData.payables),
-        '营业周期': calculateOperatingCycle(inputData.inventory, inputData.receivables),
-        '现金周期': calculateCashCycle(inputData.inventory, inputData.receivables, inputData.payables),
-        '毛利率': calculateGrossProfitMargin(inputData.operatingIncome, inputData.costOfGoodsSold),
-        '销售净利率': calculateNetProfitMargin(inputData.operatingIncome, inputData.costOfGoodsSold),
-        '总资产周转率': calculateTotalAssetTurnover(inputData.operatingIncome, inputData.totalAssets),
-        '投资回报率 (ROA)': calculateROA(inputData.costOfGoodsSold, inputData.totalAssets),
-        '权益乘数': calculateEquityMultiplier(inputData.totalAssets, inputData.totalLiabilities),
-        '权益报酬率 (ROE)': calculateROE(inputData.costOfGoodsSold, inputData.totalLiabilities)
-      };
-      
-      var resultBody = document.getElementById('result-body');
-      resultBody.innerHTML = '';
-      
-      for (var indicator in results) {
-        var value = results[indicator];
-        var idealRange = getIdealRange(indicator);
-        
-        var row = document.createElement('tr');
-        
-        var indicatorCell = document.createElement('td');
-        indicatorCell.textContent = indicator;
-        row.appendChild(indicatorCell);
-        
-        var valueCell = document.createElement('td');
-        valueCell.textContent = value.toFixed(2);
-        row.appendChild(valueCell);
-        
-        var idealRangeCell = document.createElement('td');
-        idealRangeCell.textContent = idealRange;
-        row.appendChild(idealRangeCell);
-        
-        var analysisCell = document.createElement('td');
-        analysisCell.textContent = analyzeIndicator(indicator, value, idealRange);
-        row.appendChild(analysisCell);
-        
-        resultBody.appendChild(row);
-      }
+    function calculate() {
+      var currentAssets = parseFloat(document.getElementById('current-assets').value);
+      var currentLiabilities = parseFloat(document.getElementById('current-liabilities').value);
+      var totalAssets = parseFloat(document.getElementById('total-assets').value);
+      var totalLiabilities = parseFloat(document.getElementById('total-liabilities').value);
+      var receivables = parseFloat(document.getElementById('receivables').value);
+      var averageReceivables = parseFloat(document.getElementById('average-receivables').value);
+      var salesRevenue = parseFloat(document.getElementById('sales-revenue').value);
+      var costOfGoodsSold = parseFloat(document.getElementById('cost-of-goods-sold').value);
+      var inventory = parseFloat(document.getElementById('inventory').value);
+      var payables = parseFloat(document.getElementById('payables').value);
+      var shareholdersEquity = parseFloat(document.getElementById('shareholders-equity').value);
+
+      // 进行计算
+      var liquidityRatio = currentAssets / currentLiabilities;
+      var quickRatio = (currentAssets - inventory) / currentLiabilities;
+      var debtRatio = totalLiabilities / totalAssets;
+      var receivablesTurnover = salesRevenue / receivables;
+      var receivablesTurnoverDays = 360 / receivablesTurnover;
+      var inventoryTurnover = costOfGoodsSold / inventory;
+      var inventoryTurnoverDays = 360 / inventoryTurnover;
+      var payablesTurnover = costOfGoodsSold / payables;
+      var payablesTurnoverDays = 360 / payablesTurnover;
+      var operatingCycle = inventoryTurnoverDays + receivablesTurnoverDays;
+      var cashCycle = inventoryTurnoverDays + receivablesTurnoverDays - payablesTurnoverDays;
+      var grossProfitMargin = (salesRevenue - costOfGoodsSold) / salesRevenue * 100;
+      var netProfitMargin = (netIncome / salesRevenue) * 100;
+      var totalAssetsTurnover = salesRevenue / totalAssets;
+      var roa = netProfitMargin * totalAssetsTurnover;
+      var equityMultiplier = totalAssets / shareholdersEquity;
+      var roe = netIncome / averageShareholdersEquity;
+
+      // 显示计算结果
+      document.getElementById('liquidity-ratio').textContent = liquidityRatio.toFixed(2);
+      document.getElementById('quick-ratio').textContent = quickRatio.toFixed(2);
+      document.getElementById('debt-ratio').textContent = (debtRatio * 100).toFixed(2) + "%";
+      document.getElementById('receivables-turnover').textContent = receivablesTurnover.toFixed(2);
+      document.getElementById('receivables-turnover-days').textContent = receivablesTurnoverDays.toFixed(2);
+      document.getElementById('inventory-turnover').textContent = inventoryTurnover.toFixed(2);
+      document.getElementById('inventory-turnover-days').textContent = inventoryTurnoverDays.toFixed(2);
+      document.getElementById('payables-turnover').textContent = payablesTurnover.toFixed(2);
+      document.getElementById('payables-turnover-days').textContent = payablesTurnoverDays.toFixed(2);
+      document.getElementById('operating-cycle').textContent = operatingCycle.toFixed(2);
+      document.getElementById('cash-cycle').textContent = cashCycle.toFixed(2);
+      document.getElementById('gross-profit-margin').textContent = grossProfitMargin.toFixed(2) + "%";
+      document.getElementById('net-profit-margin').textContent = netProfitMargin.toFixed(2) + "%";
+      document.getElementById('total-assets-turnover').textContent = totalAssetsTurnover.toFixed(2);
+      document.getElementById('roa').textContent = roa.toFixed(2) + "%";
+      document.getElementById('equity-multiplier').textContent = equityMultiplier.toFixed(2);
+      document.getElementById('roe').textContent = roe.toFixed(2) + "%";
+
+      // 进行分析和建议
+      document.getElementById('liquidity-ratio-analysis').innerHTML = analyzeRatio(liquidityRatio, 1.54, "流动比率", ["增加现金流量", "优化应收账款管理", "减少短期债务"]);
+      document.getElementById('quick-ratio-analysis').innerHTML = analyzeRatio(quickRatio, 1.47, "速动比率", ["加强现金管理", "控制存货水平", "减少短期债务"]);
+      document.getElementById('debt-ratio-analysis').innerHTML = analyzeRatio(debtRatio, 0.3663, "资产负债率", ["增加股东权益", "优化资产配置", "控制负债水平"]);
+      document.getElementById('receivables-turnover-analysis').innerHTML = analyzeRatio(receivablesTurnover, -1, "应收账款周转率", ["优化应收账款管理", "加强客户信用评估", "提高销售回款速度"]);
+      document.getElementById('receivables-turnover-days-analysis').innerHTML = analyzeDays(receivablesTurnoverDays, -1, "应收账款周转天数", ["优化应收账款管理", "加强客户信用评估", "提高销售回款速度"]);
+      document.getElementById('inventory-turnover-analysis').innerHTML = analyzeRatio(inventoryTurnover, -1, "存货周转率", ["优化存货管理", "加强供应链协调", "控制存货损耗"]);
+      document.getElementById('inventory-turnover-days-analysis').innerHTML = analyzeDays(inventoryTurnoverDays, -1, "存货周转天数", ["优化存货管理", "加强供应链协调", "控制存货损耗"]);
+      document.getElementById('payables-turnover-analysis').innerHTML = analyzeRatio(payablesTurnover, -1, "应付账款周转率", ["优化应付账款管理", "延长付款期限", "协调供应商关系"]);
+      document.getElementById('payables-turnover-days-analysis').innerHTML = analyzeDays(payablesTurnoverDays, -1, "应付账款周转天数", ["优化应付账款管理", "延长付款期限", "协调供应商关系"]);
+      document.getElementById('operating-cycle-analysis').innerHTML = analyzeDays(operatingCycle, -1, "营业周期", ["优化供应链管理", "加快产品周转速度", "提高销售回款速度"]);
+      document.getElementById('cash-cycle-analysis').innerHTML = analyzeDays(cashCycle, -1, "现金周期", ["加强现金管理", "优化供应链管理", "提高销售回款速度"]);
+      document.getElementById('gross-profit-margin-analysis').innerHTML = analyzePercentage(grossProfitMargin, 63.82, "毛利率", ["降低成本", "提高产品售价", "优化产品组合"]);
+      document.getElementById('net-profit-margin-analysis').innerHTML = analyzePercentage(netProfitMargin, 2.62, "销售净利率", ["降低成本", "提高产品售价", "优化产品组合"]);
+      document.getElementById('total-assets-turnover-analysis').innerHTML = analyzeRatio(totalAssetsTurnover, 0.64, "总资产周转率", ["提高销售收入", "优化资产配置", "控制资产损耗"]);
+      document.getElementById('roa-analysis').innerHTML = analyzePercentage(roa, 1.67, "投资回报率（ROA）", ["提高净利润", "优化资产配置", "降低资产损耗"]);
+      document.getElementById('equity-multiplier-analysis').innerHTML = analyzeRatio(equityMultiplier, 2.73, "权益乘数", ["增加股东权益", "控制负债水平", "优化资本结构"]);
+      document.getElementById('roe-analysis').innerHTML = analyzePercentage(roe, 4.56, "权益报酬率（ROE）", ["提高净利润", "增加股东权益", "优化资本结构"]);
     }
-    
-    function getIdealRange(indicator) {
-      switch (indicator) {
-        case '流动比率':
-        case '速动比率':
-          return '>= 1';
-        case '资产负债率':
-          return '<= 0.5';
-        case '应收账款周转率':
-        case '存货周转率':
-        case '应付账款周转率':
-        case '总资产周转率':
-        case '投资回报率 (ROA)':
-          return '高于行业平均';
-        case '营业周期':
-        case '现金周期':
-          return '<= 90';
-        case '毛利率':
-        case '销售净利率':
-          return '高于行业平均';
-        case '权益乘数':
-          return '适当范围内';
-        case '权益报酬率 (ROE)':
-          return '高于行业平均';
-        default:
-          return '';
-      }
-    }
-    
-    function analyzeIndicator(indicator, value, idealRange) {
-      if (value > idealRange) {
-        return '数值较好，表示' + getIndicatorDescription(indicator) + '。建议控制风险并寻找增长机会。';
-      } else if (value < idealRange) {
-        return '数值较低，表示' + getIndicatorDescription(indicator) + '。建议优化经营策略和资源利用，提高效率。';
+
+    function analyzeRatio(value, ideal, indicatorName, actions) {
+      if (value > ideal) {
+        return indicatorName + "高于友商指标值，表示企业具备较强的特征。建议采取以下举措："
+          + "<ul>"
+          + "<li>" + actions[0] + "</li>"
+          + "<li>" + actions[1] + "</li>"
+          + "<li>" + actions[2] + "</li>"
+          + "</ul>";
+      } else if (value < ideal) {
+        return indicatorName + "低于友商指标值，表示企业需要改进。建议采取以下举措："
+          + "<ul>"
+          + "<li>" + actions[0] + "</li>"
+          + "<li>" + actions[1] + "</li>"
+          + "<li>" + actions[2] + "</li>"
+          + "</ul>";
       } else {
-        return '数值符合理想范围';
+        return indicatorName + "达到友商指标值，企业处于良好状态。";
       }
     }
-    
-    function getIndicatorDescription(indicator) {
-      switch (indicator) {
-        case '流动比率':
-          return '公司具备较好的偿债能力';
-        case '速动比率':
-          return '公司在不考虑存货的情况下具备较好的偿债能力';
-        case '资产负债率':
-          return '公司负债较低';
-        case '应收账款周转率':
-          return '公司应收账款收回速度较快';
-        case '存货周转率':
-          return '公司存货周转速度较快';
-        case '应付账款周转率':
-          return '公司应付账款支付速度较快';
-        case '营业周期':
-          return '公司从采购原材料到收回销售款项的周期较短';
-        case '现金周期':
-          return '公司从采购原材料到收回现金的周期较短';
-        case '毛利率':
-          return '公司每单位销售收入中的毛利润比例较高';
-        case '销售净利率':
-          return '公司每单位销售收入中的净利润比例较高';
-        case '总资产周转率':
-          return '公司利用资产创造销售收入的能力较好';
-        case '投资回报率 (ROA)':
-          return '公司利用资产创造利润的能力较好';
-        case '权益乘数':
-          return '公司债务资金占股东权益的比例适当';
-        case '权益报酬率 (ROE)':
-          return '公司股东投资的收益率较高';
-        default:
-          return '';
+
+    function analyzeDays(value, ideal, indicatorName, actions) {
+      if (value > ideal) {
+        return indicatorName + "高于友商指标值，表示企业需要加快周转速度。建议采取以下举措："
+          + "<ul>"
+          + "<li>" + actions[0] + "</li>"
+          + "<li>" + actions[1] + "</li>"
+          + "<li>" + actions[2] + "</li>"
+          + "</ul>";
+      } else if (value < ideal) {
+        return indicatorName + "低于友商指标值，表示企业处于较好的状态。建议采取以下举措："
+          + "<ul>"
+          + "<li>" + actions[0] + "</li>"
+          + "<li>" + actions[1] + "</li>"
+          + "<li>" + actions[2] + "</li>"
+          + "</ul>";
+      } else {
+        return indicatorName + "达到友商指标值，企业处于良好状态。";
       }
     }
-    
-    function calculateCurrentRatio(currentAssets, currentLiabilities) {
-      return currentAssets / currentLiabilities;
-    }
-    
-    function calculateQuickRatio(currentAssets, inventory, currentLiabilities) {
-      return (currentAssets - inventory) / currentLiabilities;
-    }
-    
-    function calculateDebtRatio(totalLiabilities, totalAssets) {
-      return totalLiabilities / totalAssets;
-    }
-    
-    function calculateReceivablesTurnover(operatingIncome, receivables) {
-      return operatingIncome / receivables;
-    }
-    
-    function calculateInventoryTurnover(costOfGoodsSold, inventory) {
-      return costOfGoodsSold / inventory;
-    }
-    
-    function calculatePayablesTurnover(costOfGoodsSold, payables) {
-      return costOfGoodsSold / payables;
-    }
-    
-    function calculateOperatingCycle(inventory, receivables) {
-      return inventory + receivables;
-    }
-    
-    function calculateCashCycle(inventory, receivables, payables) {
-      return inventory + receivables - payables;
-    }
-    
-    function calculateGrossProfitMargin(operatingIncome, costOfGoodsSold) {
-      return ((operatingIncome - costOfGoodsSold) / operatingIncome) * 100;
-    }
-    
-    function calculateNetProfitMargin(operatingIncome, costOfGoodsSold) {
-      return ((operatingIncome - costOfGoodsSold) / operatingIncome) * 100;
-    }
-    
-    function calculateTotalAssetTurnover(operatingIncome, totalAssets) {
-      return operatingIncome / totalAssets;
-    }
-    
-    function calculateROA(netIncome, totalAssets) {
-      return (netIncome / totalAssets) * 100;
-    }
-    
-    function calculateEquityMultiplier(totalAssets, totalLiabilities) {
-      return totalAssets / totalLiabilities;
-    }
-    
-    function calculateROE(netIncome, totalLiabilities) {
-      return (netIncome / totalLiabilities) * 100;
+
+    function analyzePercentage(value, ideal, indicatorName, actions) {
+      if (value > ideal) {
+        return indicatorName + "高于友商指标值，表示企业具备较强的特征。建议采取以下举措："
+          + "<ul>"
+          + "<li>" + actions[0] + "</li>"
+          + "<li>" + actions[1] + "</li>"
+          + "<li>" + actions[2] + "</li>"
+          + "</ul>";
+      } else if (value < ideal) {
+        return indicatorName + "低于友商指标值，表示企业需要改进。建议采取以下举措："
+          + "<ul>"
+          + "<li>" + actions[0] + "</li>"
+          + "<li>" + actions[1] + "</li>"
+          + "<li>" + actions[2] + "</li>"
+          + "</ul>";
+      } else {
+        return indicatorName + "达到友商指标值，企业处于良好状态。";
+      }
     }
   </script>
 </body>
