@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>财务指标计算器</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    #input-form {
+      margin-top: 20px;
+    }
+
+    #result {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <table>
+    <thead>
+      <tr>
+        <th>指标名称</th>
+        <th>指标计算公式</th>
+        <th>指标理想范围</th>
+        <th>指标含义描述</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>流动比率</td>
+        <td>流动资产 ÷ 流动负债</td>
+        <td>大于1</td>
+        <td>衡量企业偿付短期债务能力的指标</td>
+      </tr>
+      <tr>
+        <td>速动比率</td>
+        <td>(流动资产 - 存货) ÷ 流动负债</td>
+        <td>大于1</td>
+        <td>衡量企业偿付短期债务能力，排除存货的影响</td>
+      </tr>
+      <tr>
+        <td>资产负债率</td>
+        <td>负债合计 ÷ 总资产</td>
+        <td>小于1</td>
+        <td>衡量企业资产通过负债的资金占比</td>
+      </tr>
+      <tr>
+        <td>应收账款周转率</td>
+        <td>营业收入 ÷ 应收账款</td>
+        <td>越高越好</td>
+        <td>衡量企业回收应收账款的速度</td>
+      </tr>
+      <tr>
+        <td>应收账款周转天数</td>
+        <td>360 ÷ 应收账款周转率</td>
+        <td>越短越好</td>
+        <td>衡量企业回收应收账款所需时间</td>
+      </tr>
+      <tr>
+        <td>存货周转率</td>
+        <td>营业成本 ÷ 存货平均余额</td>
+        <td>越高越好</td>
+        <td>衡量企业存货的周转速度</td>
+      </tr>
+      <tr>
+        <td>存货周转天数</td>
+        <td>360 ÷ 存货周转率</td>
+        <td>越短越好</td>
+        <td>衡量企业存货的周转速度</td>
+      </tr>
+      <tr>
+        <td>应付账款周转率</td>
+        <td>营业成本 ÷ 应付账款</td>
+        <td>越高越好</td>
+        <td>衡量企业支付应付账款的速度</td>
+      </tr>
+      <tr>
+        <td>应付账款周转天数</td>
+        <td>360 ÷ 应付账款周转率</td>
+        <td>越短越好</td>
+        <td>衡量企业支付应付账款所需时间</td>
+      </tr>
+      <tr>
+        <td>营业周期</td>
+        <td>存货周转天数 + 应收账款周转天数</td>
+        <td>越短越好</td>
+        <td>衡量企业从销售开始到现金收回的时间</td>
+      </tr>
+      <tr>
+        <td>现金周期</td>
+        <td>存货周转天数 + 应收账款周转天数 - 应付账款周转天数</td>
+        <td>越短越好</td>
+        <td>衡量企业从购买原材料到支付供应商的时间</td>
+      </tr>
+      <tr>
+        <td>毛利率</td>
+        <td>销售毛利 ÷ 营业收入</td>
+        <td>越高越好</td>
+        <td>衡量企业每一笔销售收入中的利润比例</td>
+      </tr>
+      <tr>
+        <td>销售净利率</td>
+        <td>净利润 ÷ 营业收入</td>
+        <td>越高越好</td>
+        <td>衡量企业销售收入中的净利润比例</td>
+      </tr>
+      <tr>
+        <td>总资产周转率</td>
+        <td>营业收入 ÷ 总资产</td>
+        <td>越高越好</td>
+        <td>衡量企业每一单位资产创造的销售收入</td>
+      </tr>
+      <tr>
+        <td>投资回报率（ROA）</td>
+        <td>销售净利率 × 总资产周转率</td>
+        <td>越高越好</td>
+        <td>衡量企业利用资产创造的净利润比例</td>
+      </tr>
+      <tr>
+        <td>权益乘数</td>
+        <td>资产总额 ÷ 权益总额</td>
+        <td>越低越好</td>
+        <td>衡量企业通过借款资金相对于股东权益的比例</td>
+      </tr>
+      <tr>
+        <td>权益报酬率（ROE）</td>
+        <td>净利润 ÷ 股东权益平均余额</td>
+        <td>越高越好</td>
+        <td>衡量企业利用股东权益创造的净利润比例</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div id="input-form">
+    <h3>输入财报数据</h3>
+    <label for="current-assets">流动资产：</label>
+    <input type="number" id="current-assets"><br>
+    <label for="current-liabilities">流动负债：</label>
+    <input type="number" id="current-liabilities"><br>
+    <label for="total-assets">总资产：</label>
+    <input type="number" id="total-assets"><br>
+    <label for="total-liabilities">负债合计：</label>
+    <input type="number" id="total-liabilities"><br>
+    <label for="receivables">应收账款：</label>
+    <input type="number" id="receivables"><br>
+    <label for="sales-revenue">营业收入：</label>
+    <input type="number" id="sales-revenue"><br>
+    <label for="cost-of-goods-sold">营业成本：</label>
+    <input type="number" id="cost-of-goods-sold"><br>
+    <label for="inventory">存货平均余额：</label>
+    <input type="number" id="inventory"><br>
+    <label for="payables">应付账款：</label>
+    <input type="number" id="payables"><br>
+    <label for="shareholders-equity">股东权益平均余额：</label>
+    <input type="number" id="shareholders-equity"><br>
+    <button onclick="calculate()">计算</button>
+  </div>
+
+  <div id="result">
+    <h3>计算结果</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>指标名称</th>
+          <th>计算结果</th>
+          <th>指标理想范围</th>
+          <th>分析和建议</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>流动比率</td>
+          <td id="liquidity-ratio"></td>
+          <td>大于1</td>
+          <td id="liquidity-ratio-analysis"></td>
+        </tr>
+        <tr>
+          <td>速动比率</td>
+          <td id="quick-ratio"></td>
+          <td>大于1</td>
+          <td id="quick-ratio-analysis"></td>
+        </tr>
+        <tr>
+          <td>资产负债率</td>
+          <td id="debt-ratio"></td>
+          <td>小于1</td>
+          <td id="debt-ratio-analysis"></td>
+        </tr>
+        <tr>
+          <td>应收账款周转率</td>
+          <td id="receivables-turnover"></td>
+          <td>越高越好</td>
+          <td id="receivables-turnover-analysis"></td>
+        </tr>
+        <tr>
+          <td>应收账款周转天数</td>
+          <td id="receivables-turnover-days"></td>
+          <td>越短越好</td>
+          <td id="receivables-turnover-days-analysis"></td>
+        </tr>
+        <tr>
+          <td>存货周转率</td>
+          <td id="inventory-turnover"></td>
+          <td>越高越好</td>
+          <td id="inventory-turnover-analysis"></td>
+        </tr>
+        <tr>
+          <td>存货周转天数</td>
+          <td id="inventory-turnover-days"></td>
+          <td>越短越好</td>
+          <td id="inventory-turnover-days-analysis"></td>
+        </tr>
+        <tr>
+          <td>应付账款周转率</td>
+          <td id="payables-turnover"></td>
+          <td>越高越好</td>
+          <td id="payables-turnover-analysis"></td>
+        </tr>
+        <tr>
+          <td>应付账款周转天数</td>
+          <td id="payables-turnover-days"></td>
+          <td>越短越好</td>
+          <td id="payables-turnover-days-analysis"></td>
+        </tr>
+        <tr>
+          <td>营业周期</td>
+          <td id="operating-cycle"></td>
+          <td>越短越好</td>
+          <td id="operating-cycle-analysis"></td>
+        </tr>
+        <tr>
+          <td>现金周期</td>
+          <td id="cash-cycle"></td>
+          <td>越短越好</td>
+          <td id="cash-cycle-analysis"></td>
+        </tr>
+        <tr>
+          <td>毛利率</td>
+          <td id="gross-profit-margin"></td>
+          <td>越高越好</td>
+          <td id="gross-profit-margin-analysis"></td>
+        </tr>
+        <tr>
+          <td>销售净利率</td>
+          <td id="net-profit-margin"></td>
+          <td>越高越好</td>
+          <td id="net-profit-margin-analysis"></td>
+        </tr>
+        <tr>
+          <td>总资产周转率</td>
+          <td id="total-assets-turnover"></td>
+          <td>越高越好</td>
+          <td id="total-assets-turnover-analysis"></td>
+        </tr>
+        <tr>
+          <td>投资回报率（ROA）</td>
+          <td id="roa"></td>
+          <td>越高越好</td>
+          <td id="roa-analysis"></td>
+        </tr>
+        <tr>
+          <td>权益乘数</td>
+          <td id="equity-multiplier"></td>
+          <td>越低越好</td>
+          <td id="equity-multiplier-analysis"></td>
+        </tr>
+        <tr>
+          <td>权益报酬率（ROE）</td>
+          <td id="roe"></td>
+          <td>越高越好</td>
+          <td id="roe-analysis"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    function calculate() {
+      // 获取用户输入的值
+      var currentAssets = parseFloat(document.getElementById('current-assets').value);
+      var currentLiabilities = parseFloat(document.getElementById('current-liabilities').value);
+      var totalAssets = parseFloat(document.getElementById('total-assets').value);
+      var totalLiabilities = parseFloat(document.getElementById('total-liabilities').value);
+      var receivables = parseFloat(document.getElementById('receivables').value);
+      var salesRevenue = parseFloat(document.getElementById('sales-revenue').value);
+      var costOfGoodsSold = parseFloat(document.getElementById('cost-of-goods-sold').value);
+      var inventory = parseFloat(document.getElementById('inventory').value);
+      var payables = parseFloat(document.getElementById('payables').value);
+      var shareholdersEquity = parseFloat(document.getElementById('shareholders-equity').value);
+
+      // 进行计算
+      var liquidityRatio = currentAssets / currentLiabilities;
+      var quickRatio = (currentAssets - inventory) / currentLiabilities;
+      var debtRatio = totalLiabilities / totalAssets;
+      var receivablesTurnover = salesRevenue / receivables;
+      var receivablesTurnoverDays = 360 / receivablesTurnover;
+      var inventoryTurnover = costOfGoodsSold / inventory;
+      var inventoryTurnoverDays = 360 / inventoryTurnover;
+      var payablesTurnover = costOfGoodsSold / payables;
+      var payablesTurnoverDays = 360 / payablesTurnover;
+      var operatingCycle = inventoryTurnoverDays + receivablesTurnoverDays;
+      var cashCycle = inventoryTurnoverDays + receivablesTurnoverDays - payablesTurnoverDays;
+      var grossProfitMargin = (salesRevenue - costOfGoodsSold) / salesRevenue;
+      var netProfitMargin = salesRevenue / salesRevenue;
+      var totalAssetsTurnover = salesRevenue / totalAssets;
+      var roa = netProfitMargin * totalAssetsTurnover;
+      var equityMultiplier = totalAssets / shareholdersEquity;
+      var roe = netProfitMargin / shareholdersEquity;
+
+      // 显示计算结果
+      document.getElementById('liquidity-ratio').textContent = liquidityRatio.toFixed(2);
+      document.getElementById('quick-ratio').textContent = quickRatio.toFixed(2);
+      document.getElementById('debt-ratio').textContent = debtRatio.toFixed(2);
+      document.getElementById('receivables-turnover').textContent = receivablesTurnover.toFixed(2);
+      document.getElementById('receivables-turnover-days').textContent = receivablesTurnoverDays.toFixed(2);
+      document.getElementById('inventory-turnover').textContent = inventoryTurnover.toFixed(2);
+      document.getElementById('inventory-turnover-days').textContent = inventoryTurnoverDays.toFixed(2);
+      document.getElementById('payables-turnover').textContent = payablesTurnover.toFixed(2);
+      document.getElementById('payables-turnover-days').textContent = payablesTurnoverDays.toFixed(2);
+      document.getElementById('operating-cycle').textContent = operatingCycle.toFixed(2);
+      document.getElementById('cash-cycle').textContent = cashCycle.toFixed(2);
+      document.getElementById('gross-profit-margin').textContent = (grossProfitMargin * 100).toFixed(2) + "%";
+      document.getElementById('net-profit-margin').textContent = (netProfitMargin * 100).toFixed(2) + "%";
+      document.getElementById('total-assets-turnover').textContent = totalAssetsTurnover.toFixed(2);
+      document.getElementById('roa').textContent = (roa * 100).toFixed(2) + "%";
+      document.getElementById('equity-multiplier').textContent = equityMultiplier.toFixed(2);
+      document.getElementById('roe').textContent = (roe * 100).toFixed(2) + "%";
+
+      // 分析结果并给出建议
+      document.getElementById('liquidity-ratio-analysis').innerHTML = analyzeLiquidityRatio(liquidityRatio);
+      document.getElementById('quick-ratio-analysis').innerHTML = analyzeQuickRatio(quickRatio);
+      document.getElementById('debt-ratio-analysis').innerHTML = analyzeDebtRatio(debtRatio);
+      document.getElementById('receivables-turnover-days-analysis').innerHTML = analyzeReceivablesTurnoverDays(receivablesTurnoverDays);
+      document.getElementById('inventory-turnover-analysis').innerHTML = analyzeInventoryTurnover(inventoryTurnover);
+      document.getElementById('inventory-turnover-days-analysis').innerHTML = analyzeInventoryTurnoverDays(inventoryTurnoverDays);
+      document.getElementById('payables-turnover-analysis').innerHTML = analyzePayablesTurnover(payablesTurnover);
+      document.getElementById('payables-turnover-days-analysis').innerHTML = analyzePayablesTurnoverDays(payablesTurnoverDays);
+      document.getElementById('operating-cycle-analysis').innerHTML = analyzeOperatingCycle(operatingCycle);
+      document.getElementById('cash-cycle-analysis').innerHTML = analyzeCashCycle(cashCycle);
+      document.getElementById('gross-profit-margin-analysis').innerHTML = analyzeProfitMargin(grossProfitMargin);
+      document.getElementById('net-profit-margin-analysis').innerHTML = analyzeProfitMargin(netProfitMargin);
+      document.getElementById('total-assets-turnover-analysis').innerHTML = analyzeTotalAssetsTurnover(totalAssetsTurnover);
+      document.getElementById('roa-analysis').innerHTML = analyzeROA(roa);
+      document.getElementById('equity-multiplier-analysis').innerHTML = analyzeEquityMultiplier(equityMultiplier);
+      document.getElementById('roe-analysis').innerHTML = analyzeROE(roe);
+    }
+
+    function analyzeLiquidityRatio(value) {
+      var idealRange = "> 1";
+      if (value > 2) {
+        return "流动比率较高，表示企业具备较强的偿债能力。建议保持良好的现金流，并寻求降低负债风险的策略。";
+      } else if (value > 1) {
+        return "流动比率适中，表示企业具备基本的偿债能力。建议继续关注现金流，合理管理流动资产和负债。";
+      } else {
+        return "流动比率较低，表示企业偿债能力较弱。建议加强现金流管理，寻求降低负债的方法。";
+      }
+    }
+
+    function analyzeQuickRatio(value) {
+      var idealRange = "> 1";
+      if (value > 1.5) {
+        return "速动比率较高，表示企业具备较强的短期偿债能力。建议保持良好的现金流，并控制存货水平。";
+      } else if (value > 1) {
+        return "速动比率适中，表示企业具备基本的短期偿债能力。建议继续关注现金流，合理管理流动资产和负债。";
+      } else {
+        return "速动比率较低，表示企业短期偿债能力较弱。建议加强现金流管理，控制存货水平，并寻求降低负债的方法。";
+      }
+    }
+
+    function analyzeDebtRatio(value) {
+      var idealRange = "< 1";
+      if (value < 0.5) {
+        return "资产负债率较低，表示企业负债相对较少。建议保持健康的资本结构，并审慎扩大债务规模。";
+      } else if (value < 1) {
+        return "资产负债率适中，表示企业的资产和负债相对平衡。建议继续关注资本结构，并合理运用债务。";
+      } else {
+        return "资产负债率较高，表示企业负债相对较多。建议加强资本结构管理，降低负债风险，并控制债务规模。";
+      }
+    }
+
+    function analyzeReceivablesTurnoverDays(value) {
+      var idealRange = "< 365";
+      if (value < 30) {
+        return "应收账款周转天数较短，表示企业能够迅速回收应收账款。建议维持良好的信用管理和收款策略。";
+      } else if (value < 60) {
+        return "应收账款周转天数适中，表示企业在回收应收账款方面表现稳定。建议继续关注应收账款的收回情况。";
+      } else {
+        return "应收账款周转天数较长，表示企业需要加快回收应收账款的速度。建议改进信用管理和收款策略，并积极催收账款。";
+      }
+    }
+
+    function analyzeInventoryTurnover(value) {
+      var idealRange = "> 1";
+      if (value > 6) {
+        return "存货周转率较高，表示企业存货的周转速度很快。建议控制存货水平，避免过高的库存成本。";
+      } else if (value > 4) {
+        return "存货周转率适中，表示企业存货的周转速度较稳定。建议合理管理存货，优化库存成本。";
+      } else {
+        return "存货周转率较低，表示企业存货的周转速度较慢。建议优化存货管理，提高存货周转效率。";
+      }
+    }
+
+    function analyzeInventoryTurnoverDays(value) {
+      var idealRange = "< 365";
+      if (value < 30) {
+        return "存货周转天数较短，表示企业能够迅速销售存货。建议继续优化存货管理，提高存货周转效率。";
+      } else if (value < 90) {
+        return "存货周转天数适中，表示企业在存货销售方面表现稳定。建议合理管理存货，并关注存货周转情况。";
+      } else {
+        return "存货周转天数较长，表示企业需要加快存货的销售速度。建议优化存货管理，积极推动存货周转。";
+      }
+    }
+
+    function analyzePayablesTurnover(value) {
+      var idealRange = "> 1";
+      if (value > 6) {
+        return "应付账款周转率较高，表示企业能够迅速支付应付账款。建议保持良好的供应商关系，并按时支付账款。";
+      } else if (value > 4) {
+        return "应付账款周转率适中，表示企业在支付应付账款方面表现稳定。建议继续关注应付账款的支付情况。";
+      } else {
+        return "应付账款周转率较低，表示企业支付应付账款的速度较慢。建议优化现金流管理，并加强与供应商的协调。";
+      }
+    }
+
+    function analyzePayablesTurnoverDays(value) {
+      var idealRange = "< 365";
+      if (value < 30) {
+        return "应付账款周转天数较短，表示企业能够迅速支付应付账款。建议继续保持良好的供应商关系，并按时支付账款。";
+      } else if (value < 90) {
+        return "应付账款周转天数适中，表示企业在支付应付账款方面表现稳定。建议继续关注应付账款的支付情况。";
+      } else {
+        return "应付账款周转天数较长，表示企业需要加快支付应付账款的速度。建议优化现金流管理，并加强与供应商的协调。";
+      }
+    }
+
+    function analyzeOperatingCycle(value) {
+      var idealRange = "< 365";
+      if (value < 60) {
+        return "营业周期较短，表示企业能够迅速将销售转化为现金收回。建议保持高效的供应链和销售渠道，加快资金周转。";
+      } else if (value < 90) {
+        return "营业周期适中，表示企业在销售和现金回收方面表现稳定。建议继续关注营业周期的优化，提高资金利用效率。";
+      } else {
+        return "营业周期较长，表示企业需要加快销售和现金回收的速度。建议优化供应链和销售渠道，缩短资金回收周期。";
+      }
+    }
+
+    function analyzeCashCycle(value) {
+      var idealRange = "< 365";
+      if (value < 30) {
+        return "现金周期较短，表示企业能够迅速将购买转化为现金支付。建议保持良好的现金流管理，控制采购和付款周期。";
+      } else if (value < 60) {
+        return "现金周期适中，表示企业在购买和现金支付方面表现稳定。建议继续关注现金流管理，合理安排采购和付款。";
+      } else {
+        return "现金周期较长，表示企业购买和现金支付的速度较慢。建议优化采购流程，加快现金支付速度，并寻求供应商优惠条件。";
+      }
+    }
+
+    function analyzeProfitMargin(value) {
+      var idealRange = "> 0";
+      if (value > 0.3) {
+        return "利润率较高，表示企业每一笔销售中的利润比例较高。建议维持产品定价的合理性，并寻找增加销售收入的机会。";
+      } else if (value > 0.1) {
+        return "利润率适中，表示企业在销售中能够获得稳定的利润。建议继续关注成本控制和销售利润的优化。";
+      } else {
+        return "利润率较低，表示企业每一笔销售中的利润比例较低。建议加强成本控制和销售利润的提升策略。";
+      }
+    }
+
+    function analyzeTotalAssetsTurnover(value) {
+      var idealRange = "> 1";
+      if (value > 2) {
+        return "总资产周转率较高，表示企业每一单位资产能够创造较多的销售收入。建议保持高效的资产利用，提高销售收入水平。";
+      } else if (value > 1) {
+        return "总资产周转率适中，表示企业在资产利用和销售收入方面表现稳定。建议继续关注资产利用效率和销售收入的增长。";
+      } else {
+        return "总资产周转率较低，表示企业每一单位资产创造的销售收入较少。建议优化资产配置，提高资产利用效率。";
+      }
+    }
+
+    function analyzeROA(value) {
+      var idealRange = "> 0";
+      if (value > 0.1) {
+        return "ROA较高，表示企业利用资产创造的净利润比例较高。建议保持良好的资产利用效率，并寻找增加净利润的机会。";
+      } else if (value > 0.05) {
+        return "ROA适中，表示企业利用资产创造的净利润比例较稳定。建议继续关注资产利用效率和净利润的优化。";
+      } else {
+        return "ROA较低，表示企业利用资产创造的净利润比例较低。建议优化资产利用效率和净利润的提升策略。";
+      }
+    }
+
+    function analyzeEquityMultiplier(value) {
+      var idealRange = "< 1";
+      if (value < 0.5) {
+        return "权益乘数较低，表示企业通过借款资金相对于股东权益的比例较低。建议保持健康的资本结构，并审慎扩大债务规模。";
+      } else if (value < 1) {
+        return "权益乘数适中，表示企业的资本结构相对平衡。建议继续关注资本结构，并合理运用债务和股东权益。";
+      } else {
+        return "权益乘数较高，表示企业通过借款资金相对于股东权益的比例较高。建议加强资本结构管理，降低负债风险，并控制债务规模。";
+      }
+    }
+
+    function analyzeROE(value) {
+      var idealRange = "> 0";
+      if (value > 0.2) {
+        return "ROE较高，表示企业利用股东权益创造的净利润比例较高。建议保持良好的股东权益利用效率，并寻找增加净利润的机会。";
+      } else if (value > 0.1) {
+        return "ROE适中，表示企业利用股东权益创造的净利润比例较稳定。建议继续关注股东权益利用效率和净利润的优化。";
+      } else {
+        return "ROE较低，表示企业利用股东权益创造的净利润比例较低。建议优化股东权益利用效率和净利润的提升策略。";
+      }
+    }
+  </script>
+</body>
+</html>
