@@ -331,7 +331,7 @@
       // 显示计算结果
       document.getElementById('liquidity-ratio').textContent = liquidityRatio.toFixed(2);
       document.getElementById('quick-ratio').textContent = quickRatio.toFixed(2);
-      document.getElementById('debt-ratio').textContent = debtRatio.toFixed(2);
+      document.getElementById('debt-ratio').textContent = (debtRatio *100).toFixed(2) + "%";
       document.getElementById('receivables-turnover').textContent = receivablesTurnover.toFixed(2);
       document.getElementById('receivables-turnover-days').textContent = receivablesTurnoverDays.toFixed(2);
       document.getElementById('inventory-turnover').textContent = inventoryTurnover.toFixed(2);
@@ -342,7 +342,7 @@
       document.getElementById('cash-cycle').textContent = cashCycle.toFixed(2);
       document.getElementById('gross-profit-margin').textContent = (grossProfitMargin * 100).toFixed(2) + "%";
       document.getElementById('net-profit-margin').textContent = (netProfitMargin * 100).toFixed(2) + "%";
-      document.getElementById('total-assets-turnover').textContent = totalAssetsTurnover.toFixed(2);
+      document.getElementById('total-assets-turnover').textContent = (totalAssetsTurnover * 100).toFixed(2) + "%";
       document.getElementById('roa').textContent = (roa * 100).toFixed(2) + "%";
       document.getElementById('equity-multiplier').textContent = equityMultiplier.toFixed(2);
       document.getElementById('roe').textContent = (roe * 100).toFixed(2) + "%";
