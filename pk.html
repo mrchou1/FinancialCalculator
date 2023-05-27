@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>财务指标计算器</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    td {
+        font-size: 10px;
+    }
+
+    .submit-button {
+      margin-top: 10px;
+    }
+
+    .result-analysis {
+      font-weight: bold;
+    }
+
+    .result-analysis.good {
+      color: green;
+    }
+
+    .result-analysis.bad {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>财务指标计算器</h1>
+
+  <div style="display:flex; flex-direction:row;">
+    <div style="flex:1;">
+    <h2>输入财报数据</h2>
+    <form id="input-form">
+      <label for="current-assets">流动资产：</label>
+      <input type="number" id="current-assets" step="0.01" required><br>
+
+      <label for="current-liabilities">流动负债：</label>
+      <input type="number" id="current-liabilities" step="0.01" required><br>
+
+      <label for="total-assets">总资产：</label>
+      <input type="number" id="total-assets" step="0.01" required><br>
+
+      <label for="total-liabilities">总负债：</label>
+      <input type="number" id="total-liabilities" step="0.01" required><br>
+
+      <label for="receivables">应收账款：</label>
+      <input type="number" id="receivables" step="0.01" required><br>
+
+      <label for="sales-revenue">营业收入：</label>
+      <input type="number" id="sales-revenue" step="0.01" required><br>
+
+      <label for="cost-of-goods-sold">营业成本：</label>
+      <input type="number" id="cost-of-goods-sold" step="0.01" required><br>
+
+      <label for="inventory">存货：</label>
+      <input type="number" id="inventory" step="0.01" required><br>
+
+      <label for="payables">应付账款：</label>
+      <input type="number" id="payables" step="0.01" required><br>
+
+      <label for="shareholders-equity">股东权益：</label>
+      <input type="number" id="shareholders-equity" step="0.01" required><br>
+
+      <label for="net-profit">净利润：</label>
+      <input type="number" id="net-profit" step="0.01" required><br>
+    </div>
+    <div style="flex:1;">
+      <h2>标杆企业财报数据</h2>
+
+      <label for="benchmark-current-assets">流动资产：</label>
+      <input type="number" id="benchmark-current-assets" step="0.01" required><br>
+
+      <label for="benchmark-current-liabilities">流动负债：</label>
+      <input type="number" id="benchmark-current-liabilities" step="0.01" required><br>
+
+      <label for="benchmark-total-assets">总资产：</label>
+      <input type="number" id="benchmark-total-assets" step="0.01" required><br>
+
+      <label for="benchmark-total-liabilities">总负债：</label>
+      <input type="number" id="benchmark-total-liabilities" step="0.01" required><br>
+
+      <label for="benchmark-receivables">应收账款：</label>
+      <input type="number" id="benchmark-receivables" step="0.01" required><br>
+
+      <label for="benchmark-sales-revenue">营业收入：</label>
+      <input type="number" id="benchmark-sales-revenue" step="0.01" required><br>
+
+      <label for="benchmark-cost-of-goods-sold">营业成本：</label>
+      <input type="number" id="benchmark-cost-of-goods-sold" step="0.01" required><br>
+
+      <label for="benchmark-inventory">存货：</label>
+      <input type="number" id="benchmark-inventory" step="0.01" required><br>
+
+      <label for="benchmark-payables">应付账款：</label>
+      <input type="number" id="benchmark-payables" step="0.01" required><br>
+
+      <label for="benchmark-shareholders-equity">股东权益：</label>
+      <input type="number" id="benchmark-shareholders-equity" step="0.01" required><br>
+
+      <label for="benchmark-net-profit">净利润：</label>
+      <input type="number" id="benchmark-net-profit" step="0.01" required><br>
+
+      <button type="button" onclick="calculate()">计算</button>
+    </form>
+   </div>
+  </div>
+
+  <div>
+    <h2>计算结果</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>指标名称</th>
+          <th>计算公式</th>
+          <th hidden="hidden">输入财报数据</th>
+          <th hidden="hidden">标杆企业财报数据</th>
+          <th>理想范围</th>
+          <th>指标含义描述</th>
+          <th>计算结果</th>
+          <th>标杆企业结果</th>
+          <th>标杆对比</th>
+          <th>分析结论与处置建议</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>流动比率</td>
+          <td>流动资产 / 流动负债</td>
+          <td id="current-ratio-input" hidden="hidden"></td>
+          <td id="benchmark-current-ratio-input" hidden="hidden"></td>
+          <td>越高越好</td>
+          <td>反映偿付短期债务能力<br>一般举措：增加流动资产或减少流动负债<br>保持良好的现金流管理，例如定期审核账户接收款项；通过改善盘存管理来减少库存；尽可能降低不必要的短期债务。</td>
+          <td id="current-ratio"></td>
+          <td id="benchmark-current-ratio"></td>
+          <td id="current-ratio-analysis"></td>
+          <td id="current-ratio-conclusion"></td>
+        </tr>
+        <tr>
+          <td>速动比率</td>
+          <td>(流动资产 - 存货) / 流动负债</td>
+          <td id="quick-ratio-input" hidden="hidden"></td>
+          <td id="benchmark-quick-ratio-input" hidden="hidden"></td>
+          <td>越高越好</td>
+          <td>反映偿债能力<br>一般举措：减少库存，增加现金和短期投资，或减少流动负债<br>除了流动比率的策略外，也可以通过减少库存水平和优化库存周转率来提高速动比率。</td>
+          <td id="quick-ratio"></td>
+          <td id="benchmark-quick-ratio"></td>
+          <td id="quick-ratio-analysis"></td>
+          <td id="quick-ratio-conclusion"></td>
+        </tr>
+        <tr>
+          <td>资产负债率</td>
+          <td>总负债 / 总资产</td>
+          <td id="debt-ratio-input" hidden="hidden"></td>
+          <td id="benchmark-debt-ratio-input" hidden="hidden"></td>
+          <td>越低越好</td>
+          <td>反映财务风险<br>一般举措：增加资产，减少负债，或两者同时进行<br>可以通过提高盈利能力，重新结构债务或发行股票来增加权益，从而降低资产负债率。</td>
+          <td id="debt-ratio"></td>
+          <td id="benchmark-debt-ratio"></td>
+          <td id="debt-ratio-analysis"></td>
+          <td id="debt-ratio-conclusion"></td>
+        </tr>
+        <tr>
+          <td>应收账款周转率</td>
+          <td>营业收入 / 应收账款</td>
+          <td id="receivables-turnover-input" hidden="hidden"></td>
+          <td id="benchmark-receivables-turnover-input" hidden="hidden"></td>
+          <td>越高越好</td>
+          <td>反映收回应收账款的速度<br>一般举措：加强应收账款的管理，及时催收欠款<br>提高客户的信用策略，更有效地管理信用政策，定期进行应收账款审计，及时催收，可以提高这个比率。</td>
+          <td id="receivables-turnover"></td>
+          <td id="benchmark-receivables-turnover"></td>
+          <td id="receivables-turnover-analysis"></td>
+          <td id="receivables-turnover-conclusion"></td>
+        </tr>
+        <tr>
+          <td>应收账款周转天数</td>
+          <td>360 / 应收账款周转率</td>
+          <td id="receivables-turnover-days-input" hidden="hidden"></td>
+          <td id="benchmark-receivables-turnover-days-input" hidden="hidden"></td>
+          <td>越短越好</td>
+          <td>表示平均收回应收账款所需的时间<br>一般举措：加强应收账款的管理和催收<br>强化催收策略，如提前通知，提供优惠等可以减少这个天数。</td>
+          <td id="receivables-turnover-days"></td>
+          <td id="benchmark-receivables-turnover-days"></td>
+          <td id="receivables-turnover-days-analysis"></td>
+          <td id="receivables-turnover-days-conclusion"></td>
+        </tr>
+        <tr>
+          <td>存货周转率</td>
+          <td>营业成本 / 存货</td>
+          <td id="inventory-turnover-input" hidden="hidden"></td>
+          <td id="benchmark-inventory-turnover-input" hidden="hidden"></td>
+          <td>越高越好</td>
+          <td>一定时期内销售存货的速度<br>一般举措：提高销售效率，合理控制存货水平<br>改进供应链管理，例如优化采购过程，实施精益生产，减少过度生产，改善销售预测等。</td>
+          <td id="inventory-turnover"></td>
+          <td id="benchmark-inventory-turnover"></td>
+          <td id="inventory-turnover-analysis"></td>
+          <td id="inventory-turnover-conclusion"></td>
+        </tr>
+        <tr>
+          <td>存货周转天数</td>
+          <td>360 / 存货周转率</td>
+          <td id="inventory-turnover-days-input" hidden="hidden"></td>
+          <td id="benchmark-inventory-turnover-days-input" hidden="hidden"></td>
+          <td>越短越好</td>
+          <td>表示平均出售一次存货所需的时间<br>一般举措：提高销售效率和合理控制存货水平<br>除了提高存货周转率的策略外，定期进行存货清理和实施定期的库存盘点也可以有所帮助。</td>
+          <td id="inventory-turnover-days"></td>
+          <td id="benchmark-inventory-turnover-days"></td>
+          <td id="inventory-turnover-days-analysis"></td>
+          <td id="inventory-turnover-days-conclusion"></td>
+        </tr>
+        <tr>
+          <td>应付账款周转率</td>
+          <td>营业成本 / 应付账款</td>
+          <td id="payables-turnover-input" hidden="hidden"></td>
+          <td id="benchmark-payables-turnover-input" hidden="hidden"></td>
+          <td>越低越好</td>
+          <td>反映支付应付账款的速度<br>一般举措：改善供应链管理，延长支付期限<br>建立良好的供应商关系，尽可能谈判延长付款条款。</td>
+          <td id="payables-turnover"></td>
+          <td id="benchmark-payables-turnover"></td>
+          <td id="payables-turnover-analysis"></td>
+          <td id="payables-turnover-conclusion"></td>
+        </tr>
+        <tr>
+          <td>应付账款周转天数</td>
+          <td>360 / 应付账款周转率</td>
+          <td id="payables-turnover-days-input" hidden="hidden"></td>
+          <td id="benchmark-payables-turnover-days-input" hidden="hidden"></td>
+          <td>越长越好</td>
+          <td>表示平均支付一次应付账款所需的时间<br>一般举措：改善供应链管理和延长支付期限<br>与供应商保持良好关系，尽可能谈判更长的付款条款。</td>
+          <td id="payables-turnover-days"></td>
+          <td id="benchmark-payables-turnover-days"></td>
+          <td id="payables-turnover-days-analysis"></td>
+          <td id="payables-turnover-days-conclusion"></td>
+        </tr>
+        <tr>
+          <td>营业周期</td>
+          <td>存货周转天数 + 应收账款周转天数</td>
+          <td id="operating-cycle-input" hidden="hidden"></td>
+          <td id="benchmark-operating-cycle-input" hidden="hidden"></td>
+          <td>越短越好</td>
+          <td>从购买原材料到销售产品并收回款项所需的时间<br>一般举措：优化供应链管理，加快销售速度，及时催收应收账款<br>提高生产效率，改进产品设计以简化生产过程，提高销售预测准确性，改善存货和应收账款管理。</td>
+          <td id="operating-cycle"></td>
+          <td id="benchmark-operating-cycle"></td>
+          <td id="operating-cycle-analysis"></td>
+          <td id="operating-cycle-conclusion"></td>
+        </tr>
+        <tr>
+          <td>现金周期</td>
+          <td>营业周期 - 应付账款周转天数</td>
+          <td id="cash-cycle-input" hidden="hidden"></td>
+          <td id="benchmark-cash-cycle-input" hidden="hidden"></td>
+          <td>越短越好</td>
+          <td>从支付原材料到收到销售收入所需的时间<br>一般举措：提高销售速度，加快收款速度，延长付款时间<br>在营业周期基础上，通过延长应付账款周转天数可以进一步缩短现金周期。</td>
+          <td id="cash-cycle"></td>
+          <td id="benchmark-cash-cycle"></td>
+          <td id="cash-cycle-analysis"></td>
+          <td id="cash-cycle-conclusion"></td>
+        </tr>
+        <tr>
+          <td>毛利率</td>
+          <td>(营业收入 - 营业成本) / 营业收入 * 100%</td>
+          <td id="gross-profit-margin-input" hidden="hidden"></td>
+          <td id="benchmark-gross-profit-margin-input" hidden="hidden"></td>
+          <td>越高越好</td>
+          <td>反映盈利能力<br>一般举措：提高销售价格，降低生产成本<br>通过提高产品的质量和差异化，可以提高销售价格；通过优化生产过程和供应链，可以降低生产成本。</td>
+          <td id="gross-profit-margin"></td>
+          <td id="benchmark-gross-profit-margin"></td>
+          <td id="gross-profit-margin-analysis"></td>
+          <td id="gross-profit-margin-conclusion"></td>
+        </tr>
+        <tr>
+          <td>净利润率</td>
+          <td>净利润 / 营业收入 * 100%</td>
+          <td id="net-profit-margin-input" hidden="hidden"></td>
+          <td id="benchmark-net-profit-margin-input" hidden="hidden"></td>
+          <td>越高越好</td>
+          <td>反映净盈利能力<br>一般举措：提高销售价格，降低成本和费用<br>提高毛利率的策略外，还可以通过改善运营效率来减少运营成本，例如通过自动化和技术升级。</td>
+          <td id="net-profit-margin"></td>
+          <td id="benchmark-net-profit-margin"></td>
+          <td id="net-profit-margin-analysis"></td>
+          <td id="net-profit-margin-conclusion"></td>
+        </tr>
+        <tr>
+          <td>总资产周转率</td>
+          <td>营业收入 / 总资产</td>
+          <td id="total-assets-turnover-input" hidden="hidden"></td>
+          <td id="benchmark-total-assets-turnover-input" hidden="hidden"></td>
+          <td>越高越好</td>
+          <td>反映使用资产产生销售收入的效率<br>一般举措：提高销售收入，合理管理和配置资产<br>提高销售收入的策略，包括提高销售效率和提高产品或服务质量；通过优化资产配置，例如出售闲置资产或进行资产重组。</td>
+          <td id="total-assets-turnover"></td>
+          <td id="benchmark-total-assets-turnover"></td>
+          <td id="total-assets-turnover-analysis"></td>
+          <td id="total-assets-turnover-conclusion"></td>
+        </tr>
+        <tr>
+          <td>投资回报率 (ROA)</td>
+          <td>净利润 / 总资产</td>
+          <td id="roa-input" hidden="hidden"></td>
+          <td id="benchmark-roa-input" hidden="hidden"></td>
+          <td>越高越好</td>
+          <td>反映使用资产产生盈利的能力<br>一般举措：提高净利润，合理管理和配置资产<br>通过提高销售收入和净利润，优化资产配置，例如资产再投资，可以提高ROA。</td>
+          <td id="roa"></td>
+          <td id="benchmark-roa"></td>
+          <td id="roa-analysis"></td>
+          <td id="roa-conclusion"></td>
+        </tr>
+        <tr>
+          <td>权益乘数</td>
+          <td>总资产 / 股东权益</td>
+          <td id="equity-multiplier-input" hidden="hidden"></td>
+          <td id="benchmark-equity-multiplier-input" hidden="hidden"></td>
+          <td>越低越好</td>
+          <td>反映财务杠杆程度<br>一般举措：增加股东权益，减少总资产<br>减少总债务，增加股东权益，例如通过发行新的股份或利润留存。</td>
+          <td id="equity-multiplier"></td>
+          <td id="benchmark-equity-multiplier"></td>
+          <td id="equity-multiplier-analysis"></td>
+          <td id="equity-multiplier-conclusion"></td>
+        </tr>
+        <tr>
+          <td>权益报酬率 (ROE)</td>
+          <td>净利润 / 股东权益</td>
+          <td id="roe-input" hidden="hidden"></td>
+          <td id="benchmark-roe-input" hidden="hidden"></td>
+          <td>越高越好</td>
+          <td>反映为股东创造利润的能力<br>一般举措：提高净利润，合理管理和配置股东权益<br>提高净利润，优化股东权益，例如增加留存利润，减少股利支付。</td>
+          <td id="roe"></td>
+          <td id="benchmark-roe"></td>
+          <td id="roe-analysis"></td>
+          <td id="roe-conclusion"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    function calculate() {
+      var currentAssets = parseFloat(document.getElementById("current-assets").value);
+      var currentLiabilities = parseFloat(document.getElementById("current-liabilities").value);
+      var totalAssets = parseFloat(document.getElementById("total-assets").value);
+      var totalLiabilities = parseFloat(document.getElementById("total-liabilities").value);
+      var receivables = parseFloat(document.getElementById("receivables").value);
+      var salesRevenue = parseFloat(document.getElementById("sales-revenue").value);
+      var costOfGoodsSold = parseFloat(document.getElementById("cost-of-goods-sold").value);
+      var inventory = parseFloat(document.getElementById("inventory").value);
+      var payables = parseFloat(document.getElementById("payables").value);
+      var shareholdersEquity = parseFloat(document.getElementById("shareholders-equity").value);
+      var netProfit = parseFloat(document.getElementById("net-profit").value);
+
+      var benchmarkCurrentAssets = parseFloat(document.getElementById("benchmark-current-assets").value);
+      var benchmarkCurrentLiabilities = parseFloat(document.getElementById("benchmark-current-liabilities").value);
+      var benchmarkTotalAssets = parseFloat(document.getElementById("benchmark-total-assets").value);
+      var benchmarkTotalLiabilities = parseFloat(document.getElementById("benchmark-total-liabilities").value);
+      var benchmarkReceivables = parseFloat(document.getElementById("benchmark-receivables").value);
+      var benchmarkSalesRevenue = parseFloat(document.getElementById("benchmark-sales-revenue").value);
+      var benchmarkCostOfGoodsSold = parseFloat(document.getElementById("benchmark-cost-of-goods-sold").value);
+      var benchmarkInventory = parseFloat(document.getElementById("benchmark-inventory").value);
+      var benchmarkPayables = parseFloat(document.getElementById("benchmark-payables").value);
+      var benchmarkShareholdersEquity = parseFloat(document.getElementById("benchmark-shareholders-equity").value);
+      var benchmarkNetProfit = parseFloat(document.getElementById("benchmark-net-profit").value);
+
+      var liquidityRatio = currentAssets / currentLiabilities;
+      var quickRatio = (currentAssets - inventory) / currentLiabilities;
+      var debtRatio = totalLiabilities / totalAssets;
+      var receivablesTurnover = salesRevenue / receivables;
+      var receivablesTurnoverDays = 360 / receivablesTurnover;
+      var inventoryTurnover = costOfGoodsSold / inventory;
+      var inventoryTurnoverDays = 360 / inventoryTurnover;
+      var payablesTurnover = costOfGoodsSold / payables;
+      var payablesTurnoverDays = 360 / payablesTurnover;
+      var operatingCycle = inventoryTurnoverDays + receivablesTurnoverDays;
+      var cashCycle = operatingCycle - payablesTurnoverDays;
+      var grossProfitMargin = ((salesRevenue - costOfGoodsSold) / salesRevenue) * 100;
+      var netProfitMargin = (netProfit / salesRevenue) * 100;
+      var totalAssetsTurnover = salesRevenue / totalAssets;
+      var roa = (netProfit / totalAssets) * 100;
+      var equityMultiplier = totalAssets / shareholdersEquity;
+      var roe = (netProfit / shareholdersEquity) * 100;
+
+      var benchmarkLiquidityRatio = benchmarkCurrentAssets / benchmarkCurrentLiabilities;
+      var benchmarkQuickRatio = (benchmarkCurrentAssets - benchmarkInventory) / benchmarkCurrentLiabilities;
+      var benchmarkDebtRatio = benchmarkTotalLiabilities / benchmarkTotalAssets;
+      var benchmarkReceivablesTurnover = benchmarkSalesRevenue / benchmarkReceivables;
+      var benchmarkReceivablesTurnoverDays = 360 / benchmarkReceivablesTurnover;
+      var benchmarkInventoryTurnover = benchmarkCostOfGoodsSold / benchmarkInventory;
+      var benchmarkInventoryTurnoverDays = 360 / benchmarkInventoryTurnover;
+      var benchmarkPayablesTurnover = benchmarkCostOfGoodsSold / benchmarkPayables;
+      var benchmarkPayablesTurnoverDays = 360 / benchmarkPayablesTurnover;
+      var benchmarkOperatingCycle = benchmarkInventoryTurnoverDays + benchmarkReceivablesTurnoverDays;
+      var benchmarkCashCycle = benchmarkOperatingCycle - benchmarkPayablesTurnoverDays;
+      var benchmarkGrossProfitMargin = ((benchmarkSalesRevenue - benchmarkCostOfGoodsSold) / benchmarkSalesRevenue) * 100;
+      var benchmarkNetProfitMargin = (benchmarkNetProfit / benchmarkSalesRevenue) * 100;
+      var benchmarkTotalAssetsTurnover = benchmarkSalesRevenue / benchmarkTotalAssets;
+      var benchmarkROA = (benchmarkNetProfit / benchmarkTotalAssets) * 100;
+      var benchmarkEquityMultiplier = benchmarkTotalAssets / benchmarkShareholdersEquity;
+      var benchmarkROE = (benchmarkNetProfit / benchmarkShareholdersEquity) * 100;
+
+      document.getElementById("current-ratio-input").textContent = currentAssets + " / " + currentLiabilities;
+      document.getElementById("benchmark-current-ratio-input").textContent = benchmarkCurrentAssets + " / " + benchmarkCurrentLiabilities;
+      document.getElementById("quick-ratio-input").textContent = "(" + currentAssets + " - " + inventory + ") / " + currentLiabilities;
+      document.getElementById("benchmark-quick-ratio-input").textContent = "(" + benchmarkCurrentAssets + " - " + benchmarkInventory + ") / " + benchmarkCurrentLiabilities;
+      document.getElementById("debt-ratio-input").textContent = totalLiabilities + " / " + totalAssets;
+      document.getElementById("benchmark-debt-ratio-input").textContent = benchmarkTotalLiabilities + " / " + benchmarkTotalAssets;
+      document.getElementById("receivables-turnover-input").textContent = salesRevenue + " / " + receivables;
+      document.getElementById("benchmark-receivables-turnover-input").textContent = benchmarkSalesRevenue + " / " + benchmarkReceivables;
+      document.getElementById("receivables-turnover-days-input").textContent = "360 / " + receivablesTurnover;
+      document.getElementById("benchmark-receivables-turnover-days-input").textContent = "360 / " + benchmarkReceivablesTurnover;
+      document.getElementById("inventory-turnover-input").textContent = costOfGoodsSold + " / " + inventory;
+      document.getElementById("benchmark-inventory-turnover-input").textContent = benchmarkCostOfGoodsSold + " / " + benchmarkInventory;
+      document.getElementById("inventory-turnover-days-input").textContent = "360 / " + inventoryTurnover;
+      document.getElementById("benchmark-inventory-turnover-days-input").textContent = "360 / " + benchmarkInventoryTurnover;
+      document.getElementById("payables-turnover-input").textContent = costOfGoodsSold + " / " + payables;
+      document.getElementById("benchmark-payables-turnover-input").textContent = benchmarkCostOfGoodsSold + " / " + benchmarkPayables;
+      document.getElementById("payables-turnover-days-input").textContent = "360 / " + payablesTurnover;
+      document.getElementById("benchmark-payables-turnover-days-input").textContent = "360 / " + benchmarkPayablesTurnover;
+      document.getElementById("operating-cycle-input").textContent = inventoryTurnoverDays + " + " + receivablesTurnoverDays;
+      document.getElementById("benchmark-operating-cycle-input").textContent = benchmarkInventoryTurnoverDays + " + " + benchmarkReceivablesTurnoverDays;
+      document.getElementById("cash-cycle-input").textContent = inventoryTurnoverDays + " + " + receivablesTurnoverDays + " - " + payablesTurnoverDays;
+      document.getElementById("benchmark-cash-cycle-input").textContent = benchmarkInventoryTurnoverDays + " + " + benchmarkReceivablesTurnoverDays + " - " + benchmarkPayablesTurnoverDays;
+      document.getElementById("gross-profit-margin-input").textContent = "(" + salesRevenue + " - " + costOfGoodsSold + ") / " + salesRevenue + " * 100%";
+      document.getElementById("benchmark-gross-profit-margin-input").textContent = "(" + benchmarkSalesRevenue + " - " + benchmarkCostOfGoodsSold + ") / " + benchmarkSalesRevenue + " * 100%";
+      document.getElementById("net-profit-margin-input").textContent = netProfit + " / " + salesRevenue + " * 100%";
+      document.getElementById("benchmark-net-profit-margin-input").textContent = benchmarkNetProfit + " / " + benchmarkSalesRevenue + " * 100%";
+      document.getElementById("total-assets-turnover-input").textContent = salesRevenue + " / " + totalAssets;
+      document.getElementById("benchmark-total-assets-turnover-input").textContent = benchmarkSalesRevenue + " / " + benchmarkTotalAssets;
+      document.getElementById("roa-input").textContent = netProfit + " / " + totalAssets;
+      document.getElementById("benchmark-roa-input").textContent = benchmarkNetProfit + " / " + benchmarkTotalAssets;
+      document.getElementById("equity-multiplier-input").textContent = totalAssets + " / " + shareholdersEquity;
+      document.getElementById("benchmark-equity-multiplier-input").textContent = benchmarkTotalAssets + " / " + benchmarkShareholdersEquity;
+      document.getElementById("roe-input").textContent = netProfit + " / " + shareholdersEquity;
+      document.getElementById("benchmark-roe-input").textContent = benchmarkNetProfit + " / " + benchmarkShareholdersEquity;
+
+      document.getElementById("current-ratio").textContent = liquidityRatio.toFixed(2);
+      document.getElementById("benchmark-current-ratio").textContent = benchmarkLiquidityRatio.toFixed(2);
+      document.getElementById("quick-ratio").textContent = quickRatio.toFixed(2);
+      document.getElementById("benchmark-quick-ratio").textContent = benchmarkQuickRatio.toFixed(2);
+      document.getElementById("debt-ratio").textContent = debtRatio.toFixed(2);
+      document.getElementById("benchmark-debt-ratio").textContent = benchmarkDebtRatio.toFixed(2);
+      document.getElementById("receivables-turnover").textContent = receivablesTurnover.toFixed(2);
+      document.getElementById("benchmark-receivables-turnover").textContent = benchmarkReceivablesTurnover.toFixed(2);
+      document.getElementById("receivables-turnover-days").textContent = receivablesTurnoverDays.toFixed(0);
+      document.getElementById("benchmark-receivables-turnover-days").textContent = benchmarkReceivablesTurnoverDays.toFixed(0);
+      document.getElementById("inventory-turnover").textContent = inventoryTurnover.toFixed(2);
+      document.getElementById("benchmark-inventory-turnover").textContent = benchmarkInventoryTurnover.toFixed(2);
+      document.getElementById("inventory-turnover-days").textContent = inventoryTurnoverDays.toFixed(0);
+      document.getElementById("benchmark-inventory-turnover-days").textContent = benchmarkInventoryTurnoverDays.toFixed(0);
+      document.getElementById("payables-turnover").textContent = payablesTurnover.toFixed(2);
+      document.getElementById("benchmark-payables-turnover").textContent = benchmarkPayablesTurnover.toFixed(2);
+      document.getElementById("payables-turnover-days").textContent = payablesTurnoverDays.toFixed(0);
+      document.getElementById("benchmark-payables-turnover-days").textContent = benchmarkPayablesTurnoverDays.toFixed(0);
+      document.getElementById("operating-cycle").textContent = operatingCycle.toFixed(0);
+      document.getElementById("benchmark-operating-cycle").textContent = benchmarkOperatingCycle.toFixed(0);
+      document.getElementById("cash-cycle").textContent = cashCycle.toFixed(0);
+      document.getElementById("benchmark-cash-cycle").textContent = benchmarkCashCycle.toFixed(0);
+      document.getElementById("gross-profit-margin").textContent = grossProfitMargin.toFixed(2) + "%";
+      document.getElementById("benchmark-gross-profit-margin").textContent = benchmarkGrossProfitMargin.toFixed(2) + "%";
+      document.getElementById("net-profit-margin").textContent = netProfitMargin.toFixed(2) + "%";
+      document.getElementById("benchmark-net-profit-margin").textContent = benchmarkNetProfitMargin.toFixed(2) + "%";
+      document.getElementById("total-assets-turnover").textContent = totalAssetsTurnover.toFixed(2);
+      document.getElementById("benchmark-total-assets-turnover").textContent = benchmarkTotalAssetsTurnover.toFixed(2);
+      document.getElementById("roa").textContent = roa.toFixed(2) + "%";
+      document.getElementById("benchmark-roa").textContent = benchmarkROA.toFixed(2) + "%";
+      document.getElementById("equity-multiplier").textContent = equityMultiplier.toFixed(2);
+      document.getElementById("benchmark-equity-multiplier").textContent = benchmarkEquityMultiplier.toFixed(2);
+      document.getElementById("roe").textContent = roe.toFixed(2) + "%";
+      document.getElementById("benchmark-roe").textContent = benchmarkROE.toFixed(2) + "%";
+
+      compareIndicators("current-ratio", liquidityRatio, benchmarkLiquidityRatio);
+      compareIndicators("quick-ratio", quickRatio, benchmarkQuickRatio);
+      compareIndicators("debt-ratio", debtRatio, benchmarkDebtRatio);
+      compareIndicators("receivables-turnover", receivablesTurnover, benchmarkReceivablesTurnover);
+      compareIndicators("receivables-turnover-days", receivablesTurnoverDays, benchmarkReceivablesTurnoverDays);
+      compareIndicators("inventory-turnover", inventoryTurnover, benchmarkInventoryTurnover);
+      compareIndicators("inventory-turnover-days", inventoryTurnoverDays, benchmarkInventoryTurnoverDays);
+      compareIndicators("payables-turnover", payablesTurnover, benchmarkPayablesTurnover);
+      compareIndicators("payables-turnover-days", payablesTurnoverDays, benchmarkPayablesTurnoverDays);
+      compareIndicators("operating-cycle", operatingCycle, benchmarkOperatingCycle);
+      compareIndicators("cash-cycle", cashCycle, benchmarkCashCycle);
+      compareIndicators("gross-profit-margin", grossProfitMargin, benchmarkGrossProfitMargin);
+      compareIndicators("net-profit-margin", netProfitMargin, benchmarkNetProfitMargin);
+      compareIndicators("total-assets-turnover", totalAssetsTurnover, benchmarkTotalAssetsTurnover);
+      compareIndicators("roa", roa, benchmarkROA);
+      compareIndicators("equity-multiplier", equityMultiplier, benchmarkEquityMultiplier);
+      compareIndicators("roe", roe, benchmarkROE);
+    }
+
+    function compareIndicators(indicatorId, value, benchmarkValue) {
+      var indicatorCell = document.getElementById(indicatorId);
+      var benchmarkIndicatorCell = document.getElementById("benchmark-" + indicatorId);
+      var analysisCell = document.getElementById(indicatorId + "-analysis");
+      var conclusionCell = document.getElementById(indicatorId + "-conclusion");
+
+      indicatorCell.textContent = value.toFixed(2);
+      benchmarkIndicatorCell.textContent = benchmarkValue.toFixed(2);
+
+      if (value > benchmarkValue) {
+        analysisCell.textContent = "高于标杆企业";
+        analysisCell.classList.add("good");
+        conclusionCell.textContent = "表明该指标在企业中表现良好。建议继续保持或进一步提高。";
+      } else if (value < benchmarkValue) {
+        analysisCell.textContent = "低于标杆企业";
+        analysisCell.classList.add("bad");
+        conclusionCell.textContent = "表明该指标在企业中表现较差。建议分析原因，并采取相应措施改进。";
+      } else {
+        analysisCell.textContent = "与标杆企业持平";
+        conclusionCell.textContent = "表明该指标与标杆企业持平。建议继续关注和监控指标变化。";
+      }
+    }
+  </script>
+</body>
+</html>
