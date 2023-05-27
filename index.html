@@ -169,6 +169,8 @@
     <input type="number" id="payables"><br>
     <label for="shareholders-equity">股东权益平均余额：</label>
     <input type="number" id="shareholders-equity"><br>
+    <label for="total-equity">权益总额：</label>
+    <input type="number" id="total-equity"><br>
     <label for="net-profit">净利润：</label>
     <input type="number" id="net-profit"><br>
     <button onclick="calculate()">计算</button>
@@ -305,6 +307,7 @@
       var inventory = parseFloat(document.getElementById('inventory').value);
       var payables = parseFloat(document.getElementById('payables').value);
       var shareholdersEquity = parseFloat(document.getElementById('shareholders-equity').value);
+      var totalequity = parseFloat(document.getElementById('total-equity').value); //增加权益总额
       var netprofit = parseFloat(document.getElementById('net-profit').value); //增加净利润输入
 
       
@@ -325,7 +328,7 @@
       var netProfitMargin = netprofit / salesRevenue;
       var totalAssetsTurnover = salesRevenue / totalAssets;
       var roa = netProfitMargin * totalAssetsTurnover;
-      var equityMultiplier = totalAssets / shareholdersEquity;
+      var equityMultiplier = totalAssets / totalequity;
       var roe = netprofit / shareholdersEquity;
 
       // 显示计算结果

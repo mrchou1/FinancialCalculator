@@ -447,8 +447,8 @@
       document.getElementById("benchmark-current-ratio").textContent = benchmarkLiquidityRatio.toFixed(2);
       document.getElementById("quick-ratio").textContent = quickRatio.toFixed(2);
       document.getElementById("benchmark-quick-ratio").textContent = benchmarkQuickRatio.toFixed(2);
-      document.getElementById("debt-ratio").textContent = debtRatio.toFixed(2);
-      document.getElementById("benchmark-debt-ratio").textContent = benchmarkDebtRatio.toFixed(2);
+      document.getElementById("debt-ratio").textContent = (debtRatio * 100).toFixed(2) + "%";
+      document.getElementById("benchmark-debt-ratio").textContent = (benchmarkDebtRatio * 100).toFixed(2) + "%";
       document.getElementById("receivables-turnover").textContent = receivablesTurnover.toFixed(2);
       document.getElementById("benchmark-receivables-turnover").textContent = benchmarkReceivablesTurnover.toFixed(2);
       document.getElementById("receivables-turnover-days").textContent = receivablesTurnoverDays.toFixed(0);
