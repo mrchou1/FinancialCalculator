@@ -14,6 +14,10 @@
       padding: 8px;
     }
 
+    td {
+      font-size: 10px;
+    }
+
     th {
       background-color: #f2f2f2;
     }
@@ -41,67 +45,67 @@
       <tr>
         <td>流动比率</td>
         <td>流动资产 ÷ 流动负债</td>
-        <td>大于1</td>
+        <td>通常，2左右是理想的。<br>表示公司的流动资产是流动负债的两倍，有足够的余地来应对短期债务。</td>
         <td>衡量企业偿付短期债务能力的指标</td>
       </tr>
       <tr>
         <td>速动比率</td>
         <td>(流动资产 - 存货) ÷ 流动负债</td>
-        <td>大于1</td>
+        <td>维持1:1较为正常。<br>过低，则短期偿债风险较大；过高，则速动资产上占用资金过多，会增加企业投资的机会成本。</td>
         <td>衡量企业偿付短期债务能力，排除存货的影响</td>
       </tr>
       <tr>
         <td>资产负债率</td>
         <td>负债合计 ÷ 总资产</td>
-        <td>小于1</td>
+        <td>通常应尽可能低。如果超过50%，可能表示财务风险较高。</td>
         <td>衡量企业资产通过负债的资金占比</td>
       </tr>
       <tr>
         <td>应收账款周转率</td>
         <td>营业收入 ÷ 应收账款</td>
-        <td>越高越好</td>
+        <td>取决于同行平均值，但通常应尽可能高。</td>
         <td>衡量企业回收应收账款的速度</td>
       </tr>
       <tr>
         <td>应收账款周转天数</td>
         <td>360 ÷ 应收账款周转率</td>
-        <td>越短越好</td>
+        <td>取决于同行平均值，但通常越短越好。</td>
         <td>衡量企业回收应收账款所需时间</td>
       </tr>
       <tr>
         <td>存货周转率</td>
         <td>营业成本 ÷ 存货平均余额</td>
-        <td>越高越好</td>
+        <td>取决于同行平均值，但通常应尽可能高。</td>
         <td>衡量企业存货的周转速度</td>
       </tr>
       <tr>
         <td>存货周转天数</td>
         <td>360 ÷ 存货周转率</td>
-        <td>越短越好</td>
+        <td>取决于同行平均值，但通常越短越好。</td>
         <td>衡量企业存货的周转速度</td>
       </tr>
       <tr>
         <td>应付账款周转率</td>
         <td>营业成本 ÷ 应付账款</td>
-        <td>越高越好</td>
+        <td>取决于同行平均值，但通常应尽可能低，以保留现金。</td>
         <td>衡量企业支付应付账款的速度</td>
       </tr>
       <tr>
         <td>应付账款周转天数</td>
         <td>360 ÷ 应付账款周转率</td>
-        <td>越短越好</td>
+        <td>取决于同行平均值，但通常越长越好，以保留现金。</td>
         <td>衡量企业支付应付账款所需时间</td>
       </tr>
       <tr>
         <td>营业周期</td>
         <td>存货周转天数 + 应收账款周转天数</td>
-        <td>越短越好</td>
+        <td>取决于同行平均值，但通常越短越好。</td>
         <td>衡量企业从销售开始到现金收回的时间</td>
       </tr>
       <tr>
         <td>现金周期</td>
         <td>存货周转天数 + 应收账款周转天数 - 应付账款周转天数</td>
-        <td>越短越好</td>
+        <td>取决于同行平均值，但通常越短越好。</td>
         <td>衡量企业从购买原材料到支付供应商的时间</td>
       </tr>
       <tr>
@@ -125,19 +129,19 @@
       <tr>
         <td>投资回报率（ROA）</td>
         <td>销售净利率 × 总资产周转率</td>
-        <td>越高越好</td>
+        <td>取决于同行平均值，10%或更高的ROA通常被视为良好。</td>
         <td>衡量企业利用资产创造的净利润比例</td>
       </tr>
       <tr>
         <td>权益乘数</td>
         <td>资产总额 ÷ 权益总额</td>
-        <td>越低越好</td>
+        <td>取决于公司的财务策略，但通常应尽可能低，以限制财务风险。</td>
         <td>衡量企业通过借款资金相对于股东权益的比例</td>
       </tr>
       <tr>
         <td>权益报酬率（ROE）</td>
         <td>净利润 ÷ 股东权益平均余额</td>
-        <td>越高越好</td>
+        <td>取决于同行平均值，15%或更高的ROE通常被视为良好。</td>
         <td>衡量企业利用股东权益创造的净利润比例</td>
       </tr>
     </tbody>
@@ -185,67 +189,67 @@
         <tr>
           <td>流动比率</td>
           <td id="liquidity-ratio"></td>
-          <td>大于1</td>
+          <td>通常，2左右是理想的。<br>表示公司的流动资产是流动负债的两倍，有足够的余地来应对短期债务。</td>
           <td id="liquidity-ratio-analysis"></td>
         </tr>
         <tr>
           <td>速动比率</td>
           <td id="quick-ratio"></td>
-          <td>大于1</td>
+          <td>维持1:1较为正常。<br>过低，则短期偿债风险较大；过高，则速动资产上占用资金过多，会增加企业投资的机会成本。</td>
           <td id="quick-ratio-analysis"></td>
         </tr>
         <tr>
           <td>资产负债率</td>
           <td id="debt-ratio"></td>
-          <td>小于1</td>
+          <td>通常应尽可能低。如果超过50%，可能表示财务风险较高。</td>
           <td id="debt-ratio-analysis"></td>
         </tr>
         <tr>
           <td>应收账款周转率</td>
           <td id="receivables-turnover"></td>
-          <td>越高越好</td>
+          <td>取决于同行平均值，但通常应尽可能高。</td>
           <td id="receivables-turnover-analysis"></td>
         </tr>
         <tr>
           <td>应收账款周转天数</td>
           <td id="receivables-turnover-days"></td>
-          <td>越短越好</td>
+          <td>取决于同行平均值，但通常越短越好。</td>
           <td id="receivables-turnover-days-analysis"></td>
         </tr>
         <tr>
           <td>存货周转率</td>
           <td id="inventory-turnover"></td>
-          <td>越高越好</td>
+          <td>取决于同行平均值，但通常应尽可能高。</td>
           <td id="inventory-turnover-analysis"></td>
         </tr>
         <tr>
           <td>存货周转天数</td>
           <td id="inventory-turnover-days"></td>
-          <td>越短越好</td>
+          <td>取决于同行平均值，但通常越短越好。</td>
           <td id="inventory-turnover-days-analysis"></td>
         </tr>
         <tr>
           <td>应付账款周转率</td>
           <td id="payables-turnover"></td>
-          <td>越高越好</td>
+          <td>取决于同行平均值，但通常应尽可能低，以保留现金。</td>
           <td id="payables-turnover-analysis"></td>
         </tr>
         <tr>
           <td>应付账款周转天数</td>
           <td id="payables-turnover-days"></td>
-          <td>越短越好</td>
+          <td>取决于同行平均值，但通常越长越好，以保留现金。</td>
           <td id="payables-turnover-days-analysis"></td>
         </tr>
         <tr>
           <td>营业周期</td>
           <td id="operating-cycle"></td>
-          <td>越短越好</td>
+          <td>取决于同行平均值，但通常越短越好。</td>
           <td id="operating-cycle-analysis"></td>
         </tr>
         <tr>
           <td>现金周期</td>
           <td id="cash-cycle"></td>
-          <td>越短越好</td>
+          <td>取决于同行平均值，但通常越短越好。</td>
           <td id="cash-cycle-analysis"></td>
         </tr>
         <tr>
@@ -269,19 +273,19 @@
         <tr>
           <td>投资回报率（ROA）</td>
           <td id="roa"></td>
-          <td>越高越好</td>
+          <td>取决于同行平均值，10%或更高的ROA通常被视为良好。</td>
           <td id="roa-analysis"></td>
         </tr>
         <tr>
           <td>权益乘数</td>
           <td id="equity-multiplier"></td>
-          <td>越低越好</td>
+          <td>取决于公司的财务策略，但通常应尽可能低，以限制财务风险。</td>
           <td id="equity-multiplier-analysis"></td>
         </tr>
         <tr>
           <td>权益报酬率（ROE）</td>
           <td id="roe"></td>
-          <td>越高越好</td>
+          <td>取决于同行平均值，15%或更高的ROE通常被视为良好。</td>
           <td id="roe-analysis"></td>
         </tr>
       </tbody>
